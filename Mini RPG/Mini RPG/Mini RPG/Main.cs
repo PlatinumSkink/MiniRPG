@@ -36,6 +36,8 @@ namespace Mini_RPG
             Content.RootDirectory = "Content";
             Position.content = Content;
             this.Window.Title = "Mini RPG";
+            Console.WriteLine(graphics.PreferredBackBufferWidth);
+            Console.WriteLine(graphics.PreferredBackBufferHeight);
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 980;
             //graphics.IsFullScreen = true;
@@ -93,7 +95,13 @@ namespace Mini_RPG
                     string next = menu.Update(gameTime);
                     if (next == "Game")
                     {
+                        graphics.PreferredBackBufferWidth = 800;
+                        graphics.PreferredBackBufferHeight = 480;
+                        graphics.IsFullScreen = true;
+                        graphics.ApplyChanges();
                         gameState = GameState.Running;
+                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
+                        game.Load("NIKLASWORLD1");
                     }
                     else if (next == "Editor")
                     {

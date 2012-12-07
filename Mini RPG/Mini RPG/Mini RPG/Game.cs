@@ -84,6 +84,10 @@ namespace Mini_RPG
                 //6tileManager.LoadWorld();
             }
         }
+        public void Load(string mapName)
+        {
+            tileManager.LoadWorld(mapName);
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             tileManager.Draw(spriteBatch, 2);
