@@ -50,6 +50,7 @@ namespace Mini_RPG
         {
             MouseState ms = Mouse.GetState();
             MouseToWorld();
+            Vector2 playerLastPos = player.Pos;
             ui.GameUpdate(gameTime);
             player.Update(gameTime);
             if (player.X - player.origin.X < 0)
@@ -67,6 +68,11 @@ namespace Mini_RPG
             if (player.Y - player.origin.Y > worldSize.Y * tileSize - player.Height)
             {
                 player.Y = worldSize.Y * tileSize - player.Height + player.origin.Y;
+            }
+            if (tileManager.CheckCollision(player, new Point(9, 5)))
+            {
+                player.X = playerLastPos.X;
+                player.Y = playerLastPos.Y;
             }
             camera.X = player.X;
             camera.Y = player.Y;

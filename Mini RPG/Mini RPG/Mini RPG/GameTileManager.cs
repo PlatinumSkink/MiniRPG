@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Mini_RPG
 {
@@ -21,6 +22,17 @@ namespace Mini_RPG
 
                 }
             }
+        }
+        public bool CheckCollision(Player player, Point collisionPoint)
+        {
+            foreach (Tile tile in collisionTiles) 
+            {
+                if (tile.sheetPoint == collisionPoint && player.CollisionRectangle().Intersects(tile.CollisionRectangle()))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

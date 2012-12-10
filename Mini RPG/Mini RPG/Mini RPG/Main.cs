@@ -101,7 +101,9 @@ namespace Mini_RPG
                         graphics.ApplyChanges();
                         gameState = GameState.Running;
                         game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-                        game.Load("NIKLASWORLD1");
+                        //game.Load("NIKLASWORLD1");
+                        //game.Load("COLLISIONTESTWORLD");
+                        game.Load("COLLISION");
                     }
                     else if (next == "Editor")
                     {
