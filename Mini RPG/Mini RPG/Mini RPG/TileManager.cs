@@ -16,7 +16,7 @@ namespace Mini_RPG
         List<Tile> tiles2 = new List<Tile>();
         List<Tile> tiles3 = new List<Tile>();
         List<Tile> collisionTiles = new List<Tile>();
-        List<Text> collisionNumber = new List<Text>();
+        protected List<Text> collisionNumber = new List<Text>();
         List<List<Tile>> tileLists = new List<List<Tile>>();
         List<GraphicalObject> borders = new List<GraphicalObject>();
         TileSheet tileSheet;

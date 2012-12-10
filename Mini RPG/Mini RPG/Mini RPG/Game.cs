@@ -11,7 +11,7 @@ namespace Mini_RPG
 {
     class Game
     {
-        TileManager tileManager;
+        GameTileManager tileManager;
         KeyboardManager km;
         public UI ui;
 
@@ -31,7 +31,7 @@ namespace Mini_RPG
             tileSize = _tileSize;
             worldSize = _worldSize;
             camera = new Camera(viewport, new Rectangle(0, 0, (int)worldSize.X * tileSize, (int)worldSize.Y * tileSize));
-            tileManager = new TileManager(tileSize);
+            tileManager = new GameTileManager(tileSize);
             tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y));
             km = new KeyboardManager();
 
