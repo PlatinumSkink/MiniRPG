@@ -38,8 +38,10 @@ namespace Mini_RPG
             this.Window.Title = "Mini RPG";
             Console.WriteLine(graphics.PreferredBackBufferWidth);
             Console.WriteLine(graphics.PreferredBackBufferHeight);
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 980;
+            //graphics.PreferredBackBufferWidth = 1920;
+            //graphics.PreferredBackBufferHeight = 980;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 600;
             //graphics.IsFullScreen = true;
         }
 
@@ -64,7 +66,7 @@ namespace Mini_RPG
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
+            //game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
             editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
             menu = new Menu();
         }
@@ -97,13 +99,14 @@ namespace Mini_RPG
                     {
                         graphics.PreferredBackBufferWidth = 800;
                         graphics.PreferredBackBufferHeight = 480;
-                        graphics.IsFullScreen = true;
+                        //graphics.IsFullScreen = true;
                         graphics.ApplyChanges();
                         gameState = GameState.Running;
                         game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-                        //game.Load("NIKLASWORLD1");
+                        game.Load("NIKLASWORLD3");
+                        game.SetPlayer();
                         //game.Load("COLLISIONTESTWORLD");
-                        game.Load("COLLISION");
+                        //game.Load("COLLISION");
                     }
                     else if (next == "Editor")
                     {

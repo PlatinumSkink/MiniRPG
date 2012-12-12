@@ -17,7 +17,7 @@ namespace Mini_RPG
         List<Tile> tiles3 = new List<Tile>();
         protected List<Tile> collisionTiles = new List<Tile>();
         protected List<Text> collisionNumber = new List<Text>();
-        List<List<Tile>> tileLists = new List<List<Tile>>();
+        protected List<List<Tile>> tileLists = new List<List<Tile>>();
         List<GraphicalObject> borders = new List<GraphicalObject>();
         TileSheet tileSheet;
         FileHandler fileHandler;
@@ -120,10 +120,14 @@ namespace Mini_RPG
                 {
                     for (int x = 0; x < worldSize.X; x++)
                     {
-                        tiles1[index].Pos = new Vector2(x * tileSize, y * tileSize);
+                        foreach (var tileList in tileLists)
+                        {
+                            tileList[index].Pos = new Vector2(x * tileSize, y * tileSize);
+                        }
+                        /*tiles1[index].Pos = new Vector2(x * tileSize, y * tileSize);
                         tiles2[index].Pos = new Vector2(x * tileSize, y * tileSize);
                         tiles3[index].Pos = new Vector2(x * tileSize, y * tileSize);
-                        collisionTiles[index].Pos = new Vector2(x * tileSize, y * tileSize);
+                        collisionTiles[index].Pos = new Vector2(x * tileSize, y * tileSize);*/
                         borders.Add(new GraphicalObject("TileBorder", new Vector2(x * tileSize, y * tileSize)));
                         index++;
                     }
@@ -154,7 +158,6 @@ namespace Mini_RPG
 
         public void Draw(SpriteBatch spriteBatch, int currentLayer)
         {
-
             foreach (List<Tile> list in tileLists)
             {
                 if (currentLayer >= tileLists.IndexOf(list)) 
@@ -166,10 +169,10 @@ namespace Mini_RPG
                 }
             }
             
-            foreach (GraphicalObject border in borders)
+            /*foreach (GraphicalObject border in borders)
             {
                 border.Draw(spriteBatch);
-            }
+            }*/
 
             if (currentLayer == 3)
             {

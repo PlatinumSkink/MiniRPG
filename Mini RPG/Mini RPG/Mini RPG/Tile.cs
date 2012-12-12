@@ -14,11 +14,13 @@ namespace Mini_RPG
         public string Name { get; set; }
         public Point sheetPoint;
         public static int tileSize;
+        public Vector2 origin { get; set; }
 
         public Tile(string textureName, Point _sheetPoint, Vector2 position):base(position)
         {
             Name = textureName;
             sheetPoint = _sheetPoint;
+            origin = new Vector2(tileSize / 2, tileSize / 2);
         }
 
         public Rectangle SourceRectangle()
@@ -33,12 +35,12 @@ namespace Mini_RPG
 
         public void Draw(SpriteBatch spriteBatch, TileSheet tileSheet)
         {
-            spriteBatch.Draw(tileSheet.spriteSheet, Pos, SourceRectangle(), Color.White);
+            spriteBatch.Draw(tileSheet.spriteSheet, Pos, SourceRectangle(), Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public void DrawSmall(SpriteBatch spriteBatch, TileSheet tileSheet)
         {
-            spriteBatch.Draw(tileSheet.spriteSheet, Pos, SourceRectangle(), Color.White, 0f, new Vector2(tileSize / 2, tileSize / 2), 0.6f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tileSheet.spriteSheet, Pos, SourceRectangle(), Color.White, 0f, origin, 0.6f, SpriteEffects.None, 0f);
         }
     }
 }

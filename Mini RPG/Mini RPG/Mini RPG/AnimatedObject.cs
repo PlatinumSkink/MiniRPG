@@ -46,7 +46,7 @@ namespace Mini_RPG
         public override Rectangle CollisionRectangle()
         {
             //return new Rectangle((int)X, (int)Y, spriteSize.X, spriteSize.Y);
-            return new Rectangle((int)X, (int)Y, Width, Height);
+            return new Rectangle((int)(X - origin.X), (int)(Y - origin.Y), Width, Height);
         }
 
         public virtual Rectangle SourceRectangle()

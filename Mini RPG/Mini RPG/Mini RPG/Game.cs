@@ -35,8 +35,6 @@ namespace Mini_RPG
             tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y));
             km = new KeyboardManager();
 
-            player = new Player("Gubb", tileManager.GetTile(1, 0).Pos, 5);
-
             ui = _ui;
             ui.SetTileSheet(tileManager.GetTileSheet());
             ui.GameUI();
@@ -69,9 +67,12 @@ namespace Mini_RPG
             {
                 player.Y = worldSize.Y * tileSize - player.Height + player.origin.Y;
             }
-            if (tileManager.CheckCollision(player, new Point(9, 5)))
+            if (tileManager.CheckCollisionX(player, new Point(9, 5)))
             {
                 player.X = playerLastPos.X;
+            }
+            if (tileManager.CheckCollisionY(player, new Point(9, 5)))
+            {
                 player.Y = playerLastPos.Y;
             }
             camera.X = player.X;
@@ -93,6 +94,13 @@ namespace Mini_RPG
         public void Load(string mapName)
         {
             tileManager.LoadWorld(mapName);
+        }
+        public void SetPlayer()
+        {
+            if (tileManager.TileGetByColor(new Point(10, 5)) != null)
+            {
+                player = new Player("Gubb", tileManager.TileGetByColor(new Point(10, 5)).Pos + tileManager.TileGetByColor(new Point(10, 5)).origin, 5);
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
