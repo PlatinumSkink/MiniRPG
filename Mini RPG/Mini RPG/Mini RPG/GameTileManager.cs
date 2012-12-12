@@ -38,6 +38,17 @@ namespace Mini_RPG
                 }
             }
         }
+        public Tile CollisionCheck(Player player, Point collisionPoint)
+        {
+            foreach (Tile tile in collisionTiles)
+            {
+                if (tile.sheetPoint == collisionPoint && player.CollisionRectangle().Intersects(tile.CollisionRectangle()))
+                {
+                    return tile;
+                }
+            }
+            return null;
+        }
         public bool CheckCollisionX(Player player, Point collisionPoint)
         {
             foreach (Tile tile in collisionTiles) 

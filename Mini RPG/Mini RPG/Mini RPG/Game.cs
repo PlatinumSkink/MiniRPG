@@ -26,6 +26,16 @@ namespace Mini_RPG
 
         Player player;
 
+        Point Red = new Point(9, 5);
+        Point Blue = new Point(10, 5);
+        Point Pink = new Point(11, 5);
+        Point Green = new Point(9, 6);
+        Point Yellow = new Point(10, 6);
+        Point Orange = new Point(11, 6);
+        Point Cyan = new Point(9, 7);
+        Point Purple = new Point(10, 7);
+        Point Brown = new Point(11, 7);
+
         public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
         {
             tileSize = _tileSize;
@@ -67,13 +77,37 @@ namespace Mini_RPG
             {
                 player.Y = worldSize.Y * tileSize - player.Height + player.origin.Y;
             }
-            if (tileManager.CheckCollisionX(player, new Point(9, 5)))
+            /*if (tileManager.CheckCollisionX(player, new Point(9, 5)))
             {
                 player.X = playerLastPos.X;
             }
             if (tileManager.CheckCollisionY(player, new Point(9, 5)))
             {
                 player.Y = playerLastPos.Y;
+            }*/
+            Tile collidedTile = tileManager.CollisionCheck(player, new Point(9, 5));
+            if (collidedTile != null)
+            {
+                if (player.X > collidedTile.Y - Tile.tileSize) 
+                {
+                    player.X = collidedTile.X - Tile.tileSize;
+                    player.X = playerLastPos.X;
+                }
+                else if (player.X < collidedTile.Y + Tile.tileSize) 
+                {
+                    player.X = collidedTile.X + Tile.tileSize;
+                    player.X = playerLastPos.X;
+                }
+                if (player.Y > collidedTile.X - Tile.tileSize)
+                {
+                    player.Y = collidedTile.Y - Tile.tileSize;
+                    player.Y = playerLastPos.Y;
+                }
+                else if (player.Y < collidedTile.X + Tile.tileSize)
+                {
+                    player.Y = collidedTile.Y + Tile.tileSize;
+                    player.Y = playerLastPos.Y;
+                }
             }
             camera.X = player.X;
             camera.Y = player.Y;
