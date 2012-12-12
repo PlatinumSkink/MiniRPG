@@ -10,22 +10,34 @@ namespace Mini_RPG
     class MovingObject : GraphicalObject
     {
         float speed;
-        Vector2 direction;
+        Vector2 direction = Vector2.Zero;
 
         public Vector2 Direction
         {
             get { return direction; }
-            set { direction = value; }
+            set
+            {
+                direction = value;
+                direction.Normalize();
+            }
         }
         public float DirectionX
         {
             get { return direction.X; }
-            set { direction.X = value; }
+            set
+            {
+                direction.X = value;
+                direction.Normalize(); 
+            }
         }
         public float DirectionY
         {
             get { return direction.Y; }
-            set { direction.Y = value; }
+            set
+            {
+                direction.Y = value;
+                direction.Normalize();
+            }
         }
 
         public MovingObject(string _textureName, Vector2 _position, float speed)

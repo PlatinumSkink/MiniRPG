@@ -25,6 +25,7 @@ namespace Mini_RPG
         public Vector2 worldSize { get; set; }
 
         Player player;
+        List<Enemy> enemies = new List<Enemy>();
 
         Point Red = new Point(9, 5);
         Point Blue = new Point(10, 5);
@@ -36,8 +37,28 @@ namespace Mini_RPG
         Point Purple = new Point(10, 7);
         Point Brown = new Point(11, 7);
 
+        Point CollisionTile;
+        Point StartTile;
+        Point TriggerTile;
+        Point GoalTile;
+        Point MiscleanousTile;
+        Point EffectTile;
+        Point InteractTile;
+        Point EnemyTile;
+        Point ItemTile;
+
         public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
         {
+            CollisionTile = Red;
+            StartTile = Blue;
+            TriggerTile = Pink;
+            GoalTile = Green;
+            MiscleanousTile = Yellow;
+            EffectTile = Orange;
+            InteractTile = Cyan;
+            EnemyTile = Purple;
+            ItemTile = Brown;
+
             tileSize = _tileSize;
             worldSize = _worldSize;
             camera = new Camera(viewport, new Rectangle(0, 0, (int)worldSize.X * tileSize, (int)worldSize.Y * tileSize));
@@ -48,6 +69,8 @@ namespace Mini_RPG
             ui = _ui;
             ui.SetTileSheet(tileManager.GetTileSheet());
             ui.GameUI();
+
+            
         }
         public void MouseToWorld()
         {
@@ -85,7 +108,7 @@ namespace Mini_RPG
             {
                 player.Y = playerLastPos.Y;
             }*/
-            Tile collidedTile = tileManager.CollisionCheck(player, new Point(9, 5));
+            Tile collidedTile = tileManager.CollisionCheck(player, CollisionTile);
             if (collidedTile != null)
             {
                 if (player.X > collidedTile.Y - Tile.tileSize) 
@@ -109,6 +132,11 @@ namespace Mini_RPG
                     player.Y = playerLastPos.Y;
                 }
             }
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Hunt(player.Pos);
+                enemy.Update(gameTime);                
+            }
             camera.X = player.X;
             camera.Y = player.Y;
             KeyboardCheck();
@@ -131,15 +159,21 @@ namespace Mini_RPG
         }
         public void SetPlayer()
         {
-            if (tileManager.TileGetByColor(new Point(10, 5)) != null)
+            Tile Start = tileManager.TileGetByColor(StartTile);
+            if (Start != null)
             {
-                player = new Player("Gubb", tileManager.TileGetByColor(new Point(10, 5)).Pos + tileManager.TileGetByColor(new Point(10, 5)).origin, 5);
+                player = new Player("Gubb", Start.Pos + Start.origin, 5);
+                enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.02f));
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             tileManager.Draw(spriteBatch, 2);
             player.Draw(spriteBatch);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
         }
         public void UIDraw(SpriteBatch spriteBatch)
         {
