@@ -9,7 +9,7 @@ namespace Mini_RPG
 {
     class MovingObject : GraphicalObject
     {
-        float speed;
+        public float speed;
         Vector2 direction = Vector2.Zero;
         Vector2 lastPos = Vector2.Zero;
         string nameToRememberYouBy = "";

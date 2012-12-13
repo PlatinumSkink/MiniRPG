@@ -15,7 +15,7 @@ namespace Mini_RPG
         List<Tile> tiles1 = new List<Tile>();
         List<Tile> tiles2 = new List<Tile>();
         List<Tile> tiles3 = new List<Tile>();
-        protected List<Tile> collisionTiles = new List<Tile>();
+        public List<Tile> collisionTiles = new List<Tile>();
         protected List<Text> collisionNumber = new List<Text>();
         protected List<List<Tile>> tileLists = new List<List<Tile>>();
         List<GraphicalObject> borders = new List<GraphicalObject>();
