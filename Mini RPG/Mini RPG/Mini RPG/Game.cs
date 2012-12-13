@@ -47,6 +47,8 @@ namespace Mini_RPG
         Point EnemyTile;
         Point ItemTile;
 
+        Vector2 playerLastPos = Vector2.Zero;
+
         public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
         {
             CollisionTile = Red;
@@ -81,7 +83,11 @@ namespace Mini_RPG
         {
             MouseState ms = Mouse.GetState();
             MouseToWorld();
-            Vector2 playerLastPos = player.Pos;
+            player.LastPos = player.Pos;
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.LastPos = enemy.Pos;
+            }
             ui.GameUpdate(gameTime);
             player.Update(gameTime);
             if (player.X - player.origin.X < 0)
@@ -108,38 +114,46 @@ namespace Mini_RPG
             {
                 player.Y = playerLastPos.Y;
             }*/
-            Tile collidedTile = tileManager.CollisionCheck(player, CollisionTile);
-            if (collidedTile != null)
-            {
-                if (player.X > collidedTile.Y - Tile.tileSize) 
-                {
-                    player.X = collidedTile.X - Tile.tileSize;
-                    player.X = playerLastPos.X;
-                }
-                else if (player.X < collidedTile.Y + Tile.tileSize) 
-                {
-                    player.X = collidedTile.X + Tile.tileSize;
-                    player.X = playerLastPos.X;
-                }
-                if (player.Y > collidedTile.X - Tile.tileSize)
-                {
-                    player.Y = collidedTile.Y - Tile.tileSize;
-                    player.Y = playerLastPos.Y;
-                }
-                else if (player.Y < collidedTile.X + Tile.tileSize)
-                {
-                    player.Y = collidedTile.Y + Tile.tileSize;
-                    player.Y = playerLastPos.Y;
-                }
-            }
             foreach (Enemy enemy in enemies)
             {
                 enemy.Hunt(player.Pos);
                 enemy.Update(gameTime);                
             }
+            CollisionCheck(player);
+            foreach (Enemy enemy in enemies)
+            {
+                CollisionCheck(enemy);
+            }
             camera.X = player.X;
             camera.Y = player.Y;
             KeyboardCheck();
+        }
+        public void CollisionCheck(MovingObject mo)
+        {
+            Tile collidedTile = tileManager.CollisionCheck(mo, CollisionTile);
+            if (collidedTile != null)
+            {
+                if (mo.X > collidedTile.Y - Tile.tileSize)
+                {
+                    mo.X = collidedTile.X - Tile.tileSize;
+                    mo.X = mo.LastPos.X;
+                }
+                else if (mo.X < collidedTile.Y + Tile.tileSize)
+                {
+                    mo.X = collidedTile.X + Tile.tileSize;
+                    mo.X = mo.LastPos.X;
+                }
+                else if (player.Y > collidedTile.X - Tile.tileSize)
+                {
+                    mo.Y = collidedTile.Y - Tile.tileSize;
+                    mo.Y = mo.LastPos.Y;
+                }
+                else if (player.Y < collidedTile.X + Tile.tileSize)
+                {
+                    mo.Y = collidedTile.Y + Tile.tileSize;
+                    mo.Y = mo.LastPos.Y;
+                }
+            }
         }
         public void PauseUpdate(GameTime gameTime)
         {
@@ -163,7 +177,7 @@ namespace Mini_RPG
             if (Start != null)
             {
                 player = new Player("Gubb", Start.Pos + Start.origin, 5);
-                enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.02f));
+                enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 2f));
             }
         }
         public void Draw(SpriteBatch spriteBatch)

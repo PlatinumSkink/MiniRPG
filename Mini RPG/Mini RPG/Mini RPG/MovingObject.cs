@@ -11,14 +11,22 @@ namespace Mini_RPG
     {
         float speed;
         Vector2 direction = Vector2.Zero;
+        Vector2 lastPos = Vector2.Zero;
+        string nameToRememberYouBy = "";
 
         public Vector2 Direction
         {
             get { return direction; }
             set
             {
+                //Console.WriteLine(direction);
                 direction = value;
-                direction.Normalize();
+                //Console.WriteLine(direction);
+                if (direction != Vector2.Zero)
+                {
+                    direction.Normalize();
+                }
+                //Console.WriteLine(direction);
             }
         }
         public float DirectionX
@@ -26,8 +34,14 @@ namespace Mini_RPG
             get { return direction.X; }
             set
             {
+                //Console.WriteLine(direction);
                 direction.X = value;
-                direction.Normalize(); 
+                //Console.WriteLine(direction);
+                if (direction != Vector2.Zero)
+                {
+                    direction.Normalize();
+                }
+                //Console.WriteLine(direction);
             }
         }
         public float DirectionY
@@ -35,15 +49,28 @@ namespace Mini_RPG
             get { return direction.Y; }
             set
             {
+                //Console.WriteLine(direction);
                 direction.Y = value;
-                direction.Normalize();
+                //Console.WriteLine(direction);
+                if (direction != Vector2.Zero)
+                {
+                    direction.Normalize();
+                }
+                //Console.WriteLine(direction);
             }
+        }
+
+        public Vector2 LastPos
+        {
+            get { return lastPos; }
+            set { lastPos = value; }
         }
 
         public MovingObject(string _textureName, Vector2 _position, float speed)
             : base(_textureName, _position)
         {
             this.speed = speed;
+            nameToRememberYouBy = _textureName;
         }
         public virtual void Update(GameTime gameTime)
         {

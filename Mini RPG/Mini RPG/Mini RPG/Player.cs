@@ -15,6 +15,8 @@ namespace Mini_RPG
         Keys Down = Keys.Down;
         Keys Left = Keys.Left;
         Keys Right = Keys.Right;
+        bool moving = false;
+
         public Player(string _textureName, Vector2 _position, float _speed):base(new Point(1, 1), _textureName, _position, _speed)
         {
 
