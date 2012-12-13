@@ -129,98 +129,146 @@ namespace Mini_RPG
         }
         public void CollisionCheck(AnimatedObject mo)
         {
-            int tileCollidedWith = tileManager.collisionTiles.IndexOf(tileManager.CollisionCheck(mo, CollisionTile));
-            Tile collidedTile = tileManager.CollisionCheck(mo, CollisionTile);
-            int playerStandingOnThisTile = (int)(((int)((mo.Y + mo.origin.Y) / 32) * 50) + ((mo.X + mo.origin.X) / 32));
-            Console.WriteLine(playerStandingOnThisTile);
-            if (collidedTile != null)
+            //int tileCollidedWith = tileManager.collisionTiles.IndexOf(tileManager.CollisionCheck(mo, CollisionTile));
+            //Tile collidedTile = tileManager.CollisionCheck(mo, CollisionTile);
+            foreach (Tile tile in tileManager.collisionTiles)
             {
-                float rightSide = collidedTile.X + Tile.tileSize;
-                float leftSide = collidedTile.X;
-                float topSide = collidedTile.Y;
-                float bottomSide = collidedTile.Y + Tile.tileSize;
-                
-                if (tileManager.collisionTiles[playerStandingOnThisTile + 1].X < mo.X + mo.Width && tileManager.collisionTiles[playerStandingOnThisTile + 1].sheetPoint == CollisionTile) 
+                Tile collidedTile = null;
+                if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == CollisionTile)
                 {
-                    mo.X -= mo.Direction.X * mo.speed;
+                    collidedTile = tile;
                 }
-                if (tileManager.collisionTiles[playerStandingOnThisTile - 1].X > mo.X && tileManager.collisionTiles[playerStandingOnThisTile - 1].sheetPoint == CollisionTile) 
+                if (collidedTile != null)
                 {
-                    mo.X -= mo.Direction.X * mo.speed;
-                }
-                if (tileManager.collisionTiles[playerStandingOnThisTile + 50].Y < mo.Y + mo.Height && tileManager.collisionTiles[playerStandingOnThisTile + 50].sheetPoint == CollisionTile) 
-                {
-                    mo.Y -= mo.Direction.Y * mo.speed;
-                }
-                if (tileManager.collisionTiles[playerStandingOnThisTile - 50].Y > mo.Y && tileManager.collisionTiles[playerStandingOnThisTile - 50].sheetPoint == CollisionTile) 
-                {
-                    mo.Y -= mo.Direction.Y * mo.speed;
-                }
+                    int playerStandingOnThisTile = (int)(((int)((mo.Y + mo.origin.Y) / 32) * 50) + ((mo.X + mo.origin.X) / 32));
+                    Console.WriteLine(playerStandingOnThisTile);
+                    float rightSide = collidedTile.X + Tile.tileSize;
+                    float leftSide = collidedTile.X;
+                    float topSide = collidedTile.Y;
+                    float bottomSide = collidedTile.Y + Tile.tileSize;
 
-                /*if (mo.X > leftSide - mo.Width && mo.X < rightSide) 
-                {
-                    //if (mo.Y < topSide)
-                    //{
-                    //    mo.Y -= mo.Direction.Y * mo.speed;
-                        //mo.Y = collidedTile.Y - mo.Height;
-                    //}
-                    //else if (mo.Y > topSide)
-                    //{
-                        mo.X -= mo.Direction.X * mo.speed;
-                        //mo.Y = collidedTile.Y + Tile.tileSize + mo.Height;
-                    //}
-                }
-
-                if (mo.Y > topSide - mo.Height && mo.Y < bottomSide)
-                {
-                    //if (mo.X < leftSide)
-                    //{
-                        mo.Y -= mo.Direction.Y * mo.speed;
-                        //mo.X = collidedTile.X - mo.Width;
-                    //}
-                    //else if (mo.X > leftSide)
-                    //{
+                    /*if (collidedTile == tileManager.collisionTiles[playerStandingOnThisTile + 1])
+                    {
                         //mo.X -= mo.Direction.X * mo.speed;
-                        //mo.X = collidedTile.X + Tile.tileSize + mo.Width;
-                    //}
-                }
+                        mo.X = mo.LastPos.X;
+                    }
+                    if (collidedTile == tileManager.collisionTiles[playerStandingOnThisTile - 1])
+                    {
+                        //mo.X -= mo.Direction.X * mo.speed;
+                        mo.X = mo.LastPos.X;
+                    }
+                    if (collidedTile == tileManager.collisionTiles[playerStandingOnThisTile + 50])
+                    {
+                        //mo.Y -= mo.Direction.Y * mo.speed;
+                        mo.Y = mo.LastPos.Y;
+                    }
+                    if (collidedTile == tileManager.collisionTiles[playerStandingOnThisTile - 50])
+                    {
+                        //mo.Y -= mo.Direction.Y * mo.speed;
+                        mo.Y = mo.LastPos.Y;
+                    }
+                     */
 
-                /*if (mo.DirectionX != 0)
-                {
-                    if (mo.X > collidedTile.X && mo.Y < collidedTile.Y + Tile.tileSize && mo.Y + mo.Height > collidedTile.Y)
+                    /*if (tileManager.collisionTiles[playerStandingOnThisTile + 1].X < mo.X + mo.Width && tileManager.collisionTiles[playerStandingOnThisTile + 1].sheetPoint == CollisionTile) 
                     {
-                        mo.X = collidedTile.X + Tile.tileSize + mo.Width;
-                        //mo.X = mo.LastPos.X;
+                        mo.X -= mo.Direction.X * mo.speed;
                     }
-                    else if (mo.X < collidedTile.X && mo.Y < collidedTile.Y + Tile.tileSize && mo.Y + mo.Height > collidedTile.Y)
+                    if (tileManager.collisionTiles[playerStandingOnThisTile - 1].X > mo.X && tileManager.collisionTiles[playerStandingOnThisTile - 1].sheetPoint == CollisionTile) 
                     {
-                        mo.X = collidedTile.X - mo.Width;
-                        //mo.X = mo.LastPos.X;
+                        mo.X -= mo.Direction.X * mo.speed;
+                    }
+                    if (tileManager.collisionTiles[playerStandingOnThisTile + 50].Y < mo.Y + mo.Height && tileManager.collisionTiles[playerStandingOnThisTile + 50].sheetPoint == CollisionTile) 
+                    {
+                        mo.Y -= mo.Direction.Y * mo.speed;
+                    }
+                    if (tileManager.collisionTiles[playerStandingOnThisTile - 50].Y > mo.Y && tileManager.collisionTiles[playerStandingOnThisTile - 50].sheetPoint == CollisionTile) 
+                    {
+                        mo.Y -= mo.Direction.Y * mo.speed;
+                    }*/
+
+                    /*if (mo.X > leftSide - mo.Width && mo.X < rightSide) 
+                    {
+                        if (mo.Y < topSide)
+                        {
+                            mo.Y -= mo.Direction.Y * mo.speed;
+                            mo.Y = collidedTile.Y - mo.Height;
+                        }
+                        else if (mo.Y > topSide)
+                        {
+                            //mo.X -= mo.Direction.X * mo.speed;
+                            mo.Y = collidedTile.Y + Tile.tileSize + mo.Height;
+                        }
+                    }
+
+                    if (mo.Y > topSide - mo.Height && mo.Y < bottomSide)
+                    {
+                        if (mo.X < leftSide)
+                        {
+                            //mo.Y -= mo.Direction.Y * mo.speed;
+                            mo.X = collidedTile.X - mo.Width;
+                        }
+                        else if (mo.X > leftSide)
+                        {
+                            mo.X -= mo.Direction.X * mo.speed;
+                            mo.X = collidedTile.X + Tile.tileSize + mo.Width;
+                        }
+                    }*/
+
+                    /*if (mo.DirectionX != 0)
+                    {
+                        if (mo.X > collidedTile.X && mo.Y < collidedTile.Y + Tile.tileSize && mo.Y + mo.Height > collidedTile.Y)
+                        {
+                            //mo.X = collidedTile.X + Tile.tileSize + mo.Width;
+                            //mo.X = mo.LastPos.X;
+                            mo.X -= mo.Direction.X * mo.speed;
+                        }
+                        else if (mo.X < collidedTile.X && mo.Y < collidedTile.Y + Tile.tileSize && mo.Y + mo.Height > collidedTile.Y)
+                        {
+                            //mo.X = collidedTile.X - mo.Width;
+                            //mo.X = mo.LastPos.X;
+                            mo.X -= mo.Direction.X * mo.speed;
+                        }
+                    }
+                    if (mo.DirectionY != 0)
+                    {
+                        if (mo.Y > collidedTile.Y && mo.X < collidedTile.X + Tile.tileSize && mo.X + mo.Width > collidedTile.X)
+                        {
+                            //mo.Y = collidedTile.Y + Tile.tileSize + mo.Height;
+                            //mo.X = mo.LastPos.X;
+                            mo.Y -= mo.Direction.Y * mo.speed;
+                        }
+                        else if (mo.Y < collidedTile.Y && mo.X < collidedTile.X + Tile.tileSize && mo.X + mo.Width > collidedTile.X)
+                        {
+                            //mo.Y = collidedTile.Y - mo.Height;
+                            //mo.X = mo.LastPos.X;
+                            mo.Y -= mo.Direction.Y * mo.speed;
+                        }
+                    }*/
+                    if (player.X > collidedTile.X - Tile.tileSize)
+                    {
+                        //mo.Y = collidedTile.Y - Tile.tileSize;
+                        //mo.Y = mo.LastPos.Y;
+                        mo.X -= mo.Direction.X * mo.speed;
+                    }
+                    else if (player.X < collidedTile.X + Tile.tileSize)
+                    {
+                        //mo.Y = collidedTile.Y + Tile.tileSize;
+                        //mo.Y = mo.LastPos.Y;
+                        mo.X -= mo.Direction.X * mo.speed;
+                    }
+                    if (player.Y > collidedTile.Y - Tile.tileSize)
+                    {
+                        //mo.Y = collidedTile.Y - Tile.tileSize;
+                        //mo.Y = mo.LastPos.Y;
+                        mo.Y -= mo.Direction.Y * mo.speed;
+                    }
+                    else if (player.Y < collidedTile.Y + Tile.tileSize)
+                    {
+                        //mo.Y = collidedTile.Y + Tile.tileSize;
+                        //mo.Y = mo.LastPos.Y;
+                        mo.Y -= mo.Direction.Y * mo.speed;
                     }
                 }
-                if (mo.DirectionY != 0)
-                {
-                    if (mo.Y > collidedTile.Y && mo.X < collidedTile.X + Tile.tileSize && mo.X + mo.Width > collidedTile.X)
-                    {
-                        mo.Y = collidedTile.Y + Tile.tileSize + mo.Height;
-                        //mo.X = mo.LastPos.X;
-                    }
-                    else if (mo.Y < collidedTile.Y && mo.X < collidedTile.X + Tile.tileSize && mo.X + mo.Width > collidedTile.X)
-                    {
-                        mo.Y = collidedTile.Y - mo.Height;
-                        //mo.X = mo.LastPos.X;
-                    }
-                }
-                /*if (player.Y > collidedTile.Y - Tile.tileSize)
-                {
-                    mo.Y = collidedTile.Y - Tile.tileSize;
-                    //mo.Y = mo.LastPos.Y;
-                }
-                else if (player.Y < collidedTile.Y + Tile.tileSize)
-                {
-                    mo.Y = collidedTile.Y + Tile.tileSize;
-                    //mo.Y = mo.LastPos.Y;
-                }*/
             }
         }
         public void PauseUpdate(GameTime gameTime)
