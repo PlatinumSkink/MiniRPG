@@ -70,8 +70,6 @@ namespace Mini_RPG
             ui = _ui;
             ui.SetTileSheet(tileManager.GetTileSheet());
             ui.GameUI();
-
-            
         }
         public void MouseToWorld()
         {
@@ -87,7 +85,6 @@ namespace Mini_RPG
             {
                 enemy.LastPos = enemy.Pos;
             }
-            ui.GameUpdate(gameTime);
             player.Update(gameTime);
             if (player.X - player.origin.X < 0)
             {
@@ -118,26 +115,47 @@ namespace Mini_RPG
                 enemy.Hunt(player.Pos);
                 enemy.Update(gameTime);                
             }
-            CollisionCheck(player);
+            CollisionCheck(player, gameTime);
             foreach (Enemy enemy in enemies)
             {
-                CollisionCheck(enemy);
+                CollisionCheck(enemy, gameTime);
             }
             camera.X = player.X;
             camera.Y = player.Y;
             KeyboardCheck();
         }
-        public void CollisionCheck(AnimatedObject mo)
+        public void CollisionCheck(AnimatedObject mo, GameTime gameTime)
         {
+            bool goX = true;
+            bool collided = false;
+            bool goY = true;
             //int tileCollidedWith = tileManager.collisionTiles.IndexOf(tileManager.CollisionCheck(mo, CollisionTile));
             //Tile collidedTile = tileManager.CollisionCheck(mo, CollisionTile);
             foreach (Tile tile in tileManager.collisionTiles)
             {
                 Tile collidedTile = null;
-                if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == CollisionTile)
+
+                if (mo.GhostX.Collider().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == CollisionTile)
+                {
+                    goX = false;
+                    collided = true;
+                }
+                if (mo.GhostY.Collider().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == CollisionTile)
+                {
+                    goY = false;
+                    collided = true;
+                }
+                //player.UpdateY(gameTime);
+
+                /*if ((mo.GhostX.Collider().Intersects(tile.CollisionRectangle()) || mo.GhostX.Collider().Intersects(tile.CollisionRectangle())) && tile.sheetPoint == CollisionTile)
+                {
+                    collidedTile = tile;
+                }*/
+                /*if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == CollisionTile)
                 {
                     collidedTile = tile;
                 }
+
                 if (collidedTile != null)
                 {
                     int playerStandingOnThisTile = (int)(((int)((mo.Y + mo.origin.Y) / 32) * 50) + ((mo.X + mo.origin.X) / 32));
@@ -145,7 +163,122 @@ namespace Mini_RPG
                     float rightSide = collidedTile.X + Tile.tileSize;
                     float leftSide = collidedTile.X;
                     float topSide = collidedTile.Y;
-                    float bottomSide = collidedTile.Y + Tile.tileSize;
+                    float bottomSide = collidedTile.Y + Tile.tileSize;*/
+
+                    /*if (collidedTile.CollisionRectangle().Intersects(mo.GhostX.Collider())) 
+                    {
+                        //mo.X = mo.GhostX.X - player.Direction.X * player.speed;
+                        mo.X -= player.Direction.X * player.speed;
+                    }
+                    if (collidedTile.CollisionRectangle().Intersects(mo.GhostY.Collider()))
+                    {
+                        //mo.Y = mo.GhostY.Y - player.Direction.Y * player.speed;
+                        mo.Y -= player.Direction.Y * player.speed;
+                    }*/
+
+                    //Tiles[i].location -= Party.going;
+                        /*if (collidedTile.X > player.X && player.Direction.X > 0)
+                        {
+                            player.X -= player.Direction.X * player.speed;
+                        }
+                        else if (collidedTile.X < player.X && player.Direction.X < 0)
+                        {
+                            player.X -= player.Direction.X * player.speed;
+                        }
+                        if (collidedTile.Y > player.Y && player.Direction.Y > 0)
+                        {
+                            player.Y -= player.Direction.Y * player.speed;
+                        }
+                        else if (collidedTile.Y < player.Y && player.Direction.Y < 0)
+                        {
+                            player.Y -= player.Direction.Y * player.speed;
+                        }*/
+                    
+
+                    /*Tiles[i].location -= Party.going;
+                    if (Party.box().Intersects(Tiles[i].box()) && Tiles[i].collision == 1)
+                    {
+                        if (Tiles[i].location.X > Party.location.X && Party.going.X > 0)
+                        {
+                            for (int j = 0; j < TileCount; j++)
+                            {
+                                //Tiles[j].location.Y -= Party.going.Y;
+                                Tiles[j].location.X += Party.going.X;
+                            }
+                            if (AreaMap == true)
+                            {
+                                for (int j = 0; j < buildingCounter; j++)
+                                {
+                                    building[j].location.X += Party.going.X;
+                                }
+                                for (int j = 0; j < NPCCounter; j++)
+                                {
+                                    NPCs[j].location.X += Party.going.X;
+                                }
+                            }
+                            Party.place.X -= Party.going.X;
+                        }
+                        else if (Tiles[i].location.X < Party.location.X && Party.going.X < 0)
+                        {
+                            for (int j = 0; j < TileCount; j++)
+                            {
+                                //Tiles[j].location.Y -= Party.going.Y;
+                                Tiles[j].location.X += Party.going.X;
+                            }
+                            if (AreaMap == true)
+                            {
+                                for (int j = 0; j < buildingCounter; j++)
+                                {
+                                    building[j].location.X += Party.going.X;
+                                }
+                                for (int j = 0; j < NPCCounter; j++)
+                                {
+                                    NPCs[j].location.X += Party.going.X;
+                                }
+                            }
+                            Party.place.X -= Party.going.X;
+                        }
+                        if (Tiles[i].location.Y > Party.location.Y && Party.going.Y > 0)
+                        {
+                            for (int j = 0; j < TileCount; j++)
+                            {
+                                //Tiles[j].location.X -= Party.going.X;
+                                Tiles[j].location.Y += Party.going.Y;
+                            }
+                            if (AreaMap == true)
+                            {
+                                for (int j = 0; j < buildingCounter; j++)
+                                {
+                                    building[j].location.Y += Party.going.Y;
+                                }
+                                for (int j = 0; j < NPCCounter; j++)
+                                {
+                                    NPCs[j].location.Y += Party.going.Y;
+                                }
+                            }
+                            Party.place.Y -= Party.going.Y;
+                        }
+                        else if (Tiles[i].location.Y < Party.location.Y && Party.going.Y < 0)
+                        {
+                            for (int j = 0; j < TileCount; j++)
+                            {
+                                //Tiles[j].location.X -= Party.going.X;
+                                Tiles[j].location.Y += Party.going.Y;
+                            }
+                            if (AreaMap == true)
+                            {
+                                for (int j = 0; j < buildingCounter; j++)
+                                {
+                                    building[j].location.Y += Party.going.Y;
+                                }
+                                for (int j = 0; j < NPCCounter; j++)
+                                {
+                                    NPCs[j].location.Y += Party.going.Y;
+                                }
+                            }
+                            Party.place.Y -= Party.going.Y;
+                        }
+                    }*/
 
                     /*if (collidedTile == tileManager.collisionTiles[playerStandingOnThisTile + 1])
                     {
@@ -244,7 +377,7 @@ namespace Mini_RPG
                             mo.Y -= mo.Direction.Y * mo.speed;
                         }
                     }*/
-                    if (player.X > collidedTile.X - Tile.tileSize)
+                    /*if (player.X > collidedTile.X - Tile.tileSize)
                     {
                         //mo.Y = collidedTile.Y - Tile.tileSize;
                         //mo.Y = mo.LastPos.Y;
@@ -267,8 +400,24 @@ namespace Mini_RPG
                         //mo.Y = collidedTile.Y + Tile.tileSize;
                         //mo.Y = mo.LastPos.Y;
                         mo.Y -= mo.Direction.Y * mo.speed;
-                    }
-                }
+                    }*/
+                //}
+            }
+            if (goX == true)
+            {
+                mo.UpdateX(gameTime, true);
+            }
+            else if (collided == true)
+            {
+                mo.UpdateX(gameTime, false);
+            }
+            if (goY == true)
+            {
+                mo.UpdateY(gameTime, true);
+            }
+            else if (collided == true)
+            {
+                mo.UpdateY(gameTime, false);
             }
         }
         public void PauseUpdate(GameTime gameTime)
@@ -293,15 +442,19 @@ namespace Mini_RPG
             if (Start != null)
             {
                 player = new Player("Gubb", Start.Pos + Start.origin, 5);
+                player.AddGhosts();
                 enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 2f));
+                enemies[0].AddGhosts();
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             tileManager.Draw(spriteBatch, 2);
+            player.DrawGhosts(spriteBatch);
             player.Draw(spriteBatch);
             foreach (Enemy enemy in enemies)
             {
+                enemy.DrawGhosts(spriteBatch);
                 enemy.Draw(spriteBatch);
             }
         }

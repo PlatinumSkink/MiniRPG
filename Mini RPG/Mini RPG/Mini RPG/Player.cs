@@ -47,39 +47,44 @@ namespace Mini_RPG
             {
                 DirectionX = 0;
             }
-            if (Direction.X == 1 && Direction.Y == 0) 
+            AdjustDirection();
+            //base.Update(gameTime);
+        }
+        
+        public void AdjustDirection()
+        {
+            if (Direction.X == 1 && Direction.Y == 0)
             {
                 rotation = MathHelper.ToRadians(0);
             }
-            else if (Direction.X == 1 && Direction.Y == 1) 
+            else if (Direction.X == 1 && Direction.Y == 1)
             {
                 rotation = MathHelper.ToRadians(45);
             }
-            else if (Direction.X == 0 && Direction.Y == 1) 
+            else if (Direction.X == 0 && Direction.Y == 1)
             {
                 rotation = MathHelper.ToRadians(90);
             }
-            else if (Direction.X == -1 && Direction.Y == 1) 
+            else if (Direction.X == -1 && Direction.Y == 1)
             {
                 rotation = MathHelper.ToRadians(135);
             }
-            else if (Direction.X == -1 && Direction.Y == 0) 
+            else if (Direction.X == -1 && Direction.Y == 0)
             {
                 rotation = MathHelper.ToRadians(180);
             }
-            else if (Direction.X == -1 && Direction.Y == -1) 
+            else if (Direction.X == -1 && Direction.Y == -1)
             {
                 rotation = MathHelper.ToRadians(225);
             }
-            else if (Direction.X == 0 && Direction.Y == -1) 
+            else if (Direction.X == 0 && Direction.Y == -1)
             {
                 rotation = MathHelper.ToRadians(270);
             }
-            else if (Direction.X == 1 && Direction.Y == -1) 
+            else if (Direction.X == 1 && Direction.Y == -1)
             {
                 rotation = MathHelper.ToRadians(315);
             }
-            base.Update(gameTime);
         }
     }
 }

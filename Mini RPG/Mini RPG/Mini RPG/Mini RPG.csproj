@@ -115,6 +115,7 @@
     <Compile Include="FileHandler.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameTileManager.cs" />
+    <Compile Include="GhostCollider.cs" />
     <Compile Include="GraphicalObject.cs" />
     <Compile Include="KeyboardManager.cs" />
     <Compile Include="MapFile.cs" />

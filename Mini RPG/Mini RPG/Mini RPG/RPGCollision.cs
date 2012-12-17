@@ -13,7 +13,7 @@ namespace Mini_RPG
         }
         public void Update()
         {
-            for (int i = 0; i < TileCount; i++)
+            /*for (int i = 0; i < TileCount; i++)
             {
                 Tiles[i].location -= Party.going;
                 if (Party.box().Intersects(Tiles[i].box()) && Tiles[i].collision == 1)
@@ -215,7 +215,7 @@ namespace Mini_RPG
                         {//Tiarma
                             Console.WriteLine("Entering Tiarma");
                             AreRightNow = "Tiarma";
-                            /*Are = "Tiarma";*/
+                            //Are = "Tiarma";
                             Are = "Iminia";
                             convCounter = 0;
                             cent = true;
@@ -808,7 +808,7 @@ namespace Mini_RPG
                     }
                     LoadArea();
                 }
-            }
+            }*/
         }
     }
 }

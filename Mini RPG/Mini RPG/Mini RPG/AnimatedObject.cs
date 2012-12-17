@@ -43,6 +43,15 @@ namespace Mini_RPG
             origin = new Vector2(Width / 2, Height / 2);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            Pos += Direction * speed;
+            GhostX.X =  X - Width + Direction.X * speed;
+            GhostX.Y = Y - Height;
+            GhostY.X = X - Width;
+            GhostY.Y = Y - Height + Direction.Y * speed;
+        }
+
         public override Rectangle CollisionRectangle()
         {
             //return new Rectangle((int)X, (int)Y, spriteSize.X, spriteSize.Y);
