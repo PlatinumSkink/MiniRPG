@@ -90,7 +90,7 @@ namespace Mini_RPG
             }
             else
             {
-                //X -= Direction.X * speed;
+                X -= Direction.X * speed;
             }
             GhostX.X = X + Direction.X * speed;
             GhostX.Y = Y;
@@ -103,7 +103,7 @@ namespace Mini_RPG
             }
             else
             {
-                //Y -= Direction.Y * speed;
+                Y -= Direction.Y * speed;
             }
             GhostY.X = X;
             GhostY.Y = Y + Direction.Y * speed;

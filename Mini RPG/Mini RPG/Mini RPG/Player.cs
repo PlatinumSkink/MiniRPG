@@ -23,8 +23,6 @@ namespace Mini_RPG
         }
         public override void Update(GameTime gameTime)
         {
-            /*DirectionX = ms.X - X;
-            DirectionY = ms.Y - Y;*/
             if (ks.CheckKeyState(Up))
             {
                 DirectionY = -1;
@@ -49,36 +47,13 @@ namespace Mini_RPG
             {
                 DirectionX = 0;
             }
-            //AdjustDirection();
+            AdjustDirection();
             //base.Update(gameTime);
         }
         
-        public void AdjustDirection(Vector2 CameraOffset)
+        public void AdjustDirection()
         {
-            MouseState ms = Mouse.GetState();
-            Point mousePosition = new Point(ms.X, ms.Y);
-            Vector2 distance = new Vector2(mousePosition.X - CameraOffset.X, mousePosition.Y - CameraOffset.Y);
-            distance.X = X + ms.X - CameraOffset.X - Core.WorldWidth / 2;
-            distance.Y = Y + ms.Y - CameraOffset.Y - Core.WorldHeight / 2;
-
-            float hypotenusa = (float)Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y);
-
-            //rotation = (float)Math.Sin(distance.Y / hypotenusa);
-            if (distance.X > 0)
-            {
-                rotation = (float)Math.Tanh(distance.Y / distance.X);
-            }
-            else 
-            {
-                rotation = (float)Math.Tanh(distance.Y / distance.X) + MathHelper.ToRadians(180);
-            }
-            //rotation = (float)Math.Cos(distance.X / hypotenusa);
-            Console.WriteLine(rotation);
-            Console.WriteLine("Mouse: " + mousePosition);
-            Console.WriteLine("Camera: " + CameraOffset);
-            Console.WriteLine("Result: " + distance);
-
-            /*if (Direction.X == 1 && Direction.Y == 0)
+            if (Direction.X == 1 && Direction.Y == 0)
             {
                 rotation = MathHelper.ToRadians(0);
             }
@@ -109,7 +84,7 @@ namespace Mini_RPG
             else if (Direction.X == 1 && Direction.Y == -1)
             {
                 rotation = MathHelper.ToRadians(315);
-            }*/
+            }
         }
     }
 }

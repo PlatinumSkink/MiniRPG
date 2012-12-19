@@ -52,15 +52,10 @@ namespace Mini_RPG
             GhostY.Y = Y - Height + Direction.Y * speed;
         }
 
-        public virtual Rectangle GraphicsRectangle()
-        {
-            return new Rectangle((int)(X - origin.X / 2), (int)(Y - origin.Y / 2), Width, Height);
-        }
-
         public override Rectangle CollisionRectangle()
         {
             //return new Rectangle((int)X, (int)Y, spriteSize.X, spriteSize.Y);
-            return new Rectangle((int)(X/* - origin.X*/), (int)(Y/* - origin.Y*/), Width, Height);
+            return new Rectangle((int)(X - origin.X), (int)(Y - origin.Y), Width, Height);
         }
 
         public virtual Rectangle SourceRectangle()
@@ -70,7 +65,7 @@ namespace Mini_RPG
 
         public override void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, /*Collision*/GraphicsRectangle(), SourceRectangle(), Color.White, rotation, origin, SpriteEffects.None, 0f);
+            sprite.Draw(texture, CollisionRectangle(), SourceRectangle(), Color.White, rotation, origin, SpriteEffects.None, 0f);
         }
     }
 }
