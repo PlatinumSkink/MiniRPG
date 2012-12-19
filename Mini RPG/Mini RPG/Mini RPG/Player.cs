@@ -64,11 +64,19 @@ namespace Mini_RPG
             float hypotenusa = (float)Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y);
 
             //rotation = (float)Math.Sin(distance.Y / hypotenusa);
-            if (distance.X > 0)
+            if (distance.Y > Core.WorldHeight / 2 + 100)
             {
                 rotation = (float)Math.Tanh(distance.Y / distance.X);
             }
-            else 
+            else if (distance.Y < Core.WorldHeight / 2 - 100) 
+            {
+                rotation = (float)Math.Tanh(distance.Y / distance.X);
+            }
+            else if (distance.X > 0)
+            {
+                rotation = (float)Math.Tanh(distance.Y / distance.X);
+            }
+            else
             {
                 rotation = (float)Math.Tanh(distance.Y / distance.X) + MathHelper.ToRadians(180);
             }
