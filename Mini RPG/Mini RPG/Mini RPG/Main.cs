@@ -41,7 +41,9 @@ namespace Mini_RPG
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 980;
             graphics.PreferredBackBufferWidth = 1024;
+            Core.WorldWidth = graphics.PreferredBackBufferWidth;
             graphics.PreferredBackBufferHeight = 600;
+            Core.WorldWidth = graphics.PreferredBackBufferHeight;
             //graphics.IsFullScreen = true;
         }
 
@@ -101,6 +103,8 @@ namespace Mini_RPG
                         graphics.PreferredBackBufferHeight = 480;
                         //graphics.IsFullScreen = true;
                         graphics.ApplyChanges();
+                        Core.WorldWidth = graphics.PreferredBackBufferWidth;
+                        Core.WorldHeight = graphics.PreferredBackBufferHeight;
                         gameState = GameState.Running;
                         game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
                         game.Load("NIKLASWORLD3");
