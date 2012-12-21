@@ -25,6 +25,7 @@ namespace Mini_RPG
 
         Player player;
         List<Enemy> enemies = new List<Enemy>();
+        List<Shot> projectiles = new List<Shot>();
 
         Point Red = new Point(9, 5);
         Point Blue = new Point(10, 5);
@@ -107,32 +108,36 @@ namespace Mini_RPG
             }
             /*if (tileManager.CheckCollisionX(player, new Point(9, 5)))
             {
-                player.X = playerLastPos.X;
+            //    player.X = playerLastPos.X;
             }
             if (tileManager.CheckCollisionY(player, new Point(9, 5)))
             {
-                player.Y = playerLastPos.Y;
+              //  player.Y = playerLastPos.Y;
             }*/
             foreach (Enemy enemy in enemies)
             {
                 enemy.Hunt(player.Pos);
+                enemy.AdjustDirection(player.Pos, camera.Position);
                 //enemy.Update(gameTime);                
             }
-            CollisionCheck(player, gameTime);
+            TileCollisionCheck(player, gameTime);
             EnemiesAppeared = false;
             foreach (Enemy enemy in enemies)
             {
-                CollisionCheck(enemy, gameTime);
+                TileCollisionCheck(enemy, gameTime);
                 if (EnemiesAppeared == true)
                 {
                     return;
                 }
             }
+            
             camera.X = player.X;
             camera.Y = player.Y;
             KeyboardCheck();
+
+            EnemyCollisionCheck(player);
         }
-        public void CollisionCheck(AnimatedObject mo, GameTime gameTime)
+        public void TileCollisionCheck(AnimatedObject mo, GameTime gameTime)
         {
             bool goX = true;
             bool collided = false;
@@ -145,7 +150,7 @@ namespace Mini_RPG
 
             List<Tile> CloseTiles = new List<Tile>();
 
-            /*CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile]);
+            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile]);
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + 1]);
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - 1]);
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X - 1]);
@@ -153,7 +158,7 @@ namespace Mini_RPG
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X + 1]);
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X - 1]);
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X + 1]);*/
+            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X + 1]);
 
             //foreach (Tile tile in tileManager.collisionTiles)
             foreach (Tile tile in CloseTiles)
@@ -469,6 +474,28 @@ namespace Mini_RPG
                 mo.UpdateY(gameTime, false);
             }
         }
+
+        public void EnemyCollisionCheck(AnimatedObject mo)
+        {
+            Enemy enemyHit = GetEnemyCollision(mo);
+            if (enemyHit != null) 
+            {
+
+            }
+        }
+
+        public Enemy GetEnemyCollision(AnimatedObject mo)
+        {
+            foreach (Enemy enemy in enemies)
+            {
+                if (mo.CollisionRectangle().Intersects(enemy.CollisionRectangle()))
+                {
+                    return enemy;
+                }
+            }
+            return null;
+        }
+
         public void PauseUpdate(GameTime gameTime)
         {
 
@@ -480,8 +507,8 @@ namespace Mini_RPG
                 if (tile.sheetPoint == EnemyTile && tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)) == triggerNumber) 
                 {
                     EnemiesAppeared = true;
-                    //enemies.Add(new Enemy(new Point(1, 1), "Enem", tile.Pos, 2f));
-                    //enemies[enemies.IndexOf(enemies.Last<Enemy>())].AddGhosts();
+                    enemies.Add(new Enemy(new Point(1, 1), "Monster1", tile.Pos, 2f));
+                    enemies[enemies.IndexOf(enemies.Last<Enemy>())].AddGhosts();
                     tile.sheetPoint = Point.Zero;
                 }
                 if (tile.sheetPoint == EffectTile)
@@ -507,7 +534,7 @@ namespace Mini_RPG
             Tile Start = tileManager.TileGetByColor(StartTile);
             if (Start != null)
             {
-                player = new Player("Gubb", Start.Pos + Start.origin, 5);
+                player = new Player("Soldier", Start.Pos + Start.origin, 5);
                 player.AddGhosts();
                 //enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.5f));
                 //enemies[0].AddGhosts();

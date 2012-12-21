@@ -63,14 +63,32 @@ namespace Mini_RPG
 
             float hypotenusa = (float)Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y);
 
-            //rotation = (float)Math.Sin(distance.Y / hypotenusa);
-            if (distance.Y > Core.WorldHeight / 2 + 100)
+            //rotation = (float)Math.Atan2(mousePosition.Y - Y - origin.Y, mousePosition.X - X - origin.X);
+            rotation = (float)Math.Atan2(mousePosition.Y + CameraOffset.Y - Y - origin.Y, mousePosition.X + CameraOffset.X - X - origin.X);
+            rotation = (float)Math.Atan2(distance.Y, distance.X);
+
+            //rotation = (float)Math.Acos(Math.Cos(distance.X / hypotenusa));
+
+            /*if (distance.X > 0)
             {
-                rotation = (float)Math.Tanh(distance.Y / distance.X);
+                rotation = (float)Math.Atan(Math.Tan(distance.Y / distance.X));    
+                //rotation = (float)3.14 * (float)Math.Cos(distance.X / hypotenusa);
+                //rotation = (float)Math.Tanh(distance.Y / distance.X);
+            }
+            else
+            {
+                rotation = (float)Math.Asin(Math.Sinh(distance.Y / hypotenusa)) + MathHelper.ToRadians(180);
+                //rotation = (float)Math.Tanh(distance.Y / distance.X) + MathHelper.ToRadians(180);
+            }*/
+
+            //rotation = (float)Math.Sin(distance.Y / hypotenusa);
+            /*if (distance.Y > Core.WorldHeight / 2 + 100)
+            {
+                rotation = (float)Math.Sin(distance.Y / hypotenusa);
             }
             else if (distance.Y < Core.WorldHeight / 2 - 100) 
             {
-                rotation = (float)Math.Tanh(distance.Y / distance.X);
+                rotation = (float)Math.Sin(distance.Y / hypotenusa);
             }
             else if (distance.X > 0)
             {
@@ -79,12 +97,12 @@ namespace Mini_RPG
             else
             {
                 rotation = (float)Math.Tanh(distance.Y / distance.X) + MathHelper.ToRadians(180);
-            }
+            }*/
             //rotation = (float)Math.Cos(distance.X / hypotenusa);
-            Console.WriteLine(rotation);
+            /*Console.WriteLine(rotation);
             Console.WriteLine("Mouse: " + mousePosition);
             Console.WriteLine("Camera: " + CameraOffset);
-            Console.WriteLine("Result: " + distance);
+            Console.WriteLine("Result: " + distance);*/
 
             /*if (Direction.X == 1 && Direction.Y == 0)
             {

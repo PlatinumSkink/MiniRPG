@@ -110,6 +110,7 @@
     <Compile Include="AnimatedObject.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Library.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Enemy.cs" />
@@ -128,6 +129,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="RPGCollision.cs" />
+    <Compile Include="Shot.cs" />
+    <Compile Include="Stats.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileArsenal.cs" />
