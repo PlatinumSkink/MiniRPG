@@ -120,6 +120,7 @@
     <Compile Include="GhostCollider.cs" />
     <Compile Include="GraphicalObject.cs" />
     <Compile Include="KeyboardManager.cs" />
+    <Compile Include="LivingObject.cs" />
     <Compile Include="MapFile.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MovingObject.cs" />

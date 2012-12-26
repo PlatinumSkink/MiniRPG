@@ -39,7 +39,10 @@ namespace Mini_RPG
             : base(_textureName, _position, speed)
         {
             sheetSize = _sheetSize;
-            rotation = 0f;
+            if (rotation == null)
+            {
+                rotation = 0f;
+            }
             origin = new Vector2(Width / 2, Height / 2);
         }
 
