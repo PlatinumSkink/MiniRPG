@@ -22,7 +22,7 @@ namespace Mini_RPG
         }
         public void Load(string spriteName)
         {
-            spriteSheet = content.Load<Texture2D>("Graphics/" + spriteName);
+            spriteSheet = Content.Load<Texture2D>("Graphics/" + spriteName);
         }
     }
 }

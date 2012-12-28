@@ -66,6 +66,11 @@ namespace Mini_RPG
             return new Rectangle((int)(X/* - origin.X*/), (int)(Y/* - origin.Y*/), Width, Height);
         }
 
+        public virtual Rectangle CollisionRectangleForShots()
+        {
+            return new Rectangle((int)X - (int)origin.X, (int)Y - (int)origin.Y, Width, Height);
+        }
+
         public virtual Rectangle SourceRectangle()
         {
             return new Rectangle(currentSprite.X * Width, currentSprite.Y * Height, Width, Height);

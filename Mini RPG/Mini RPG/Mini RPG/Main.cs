@@ -34,7 +34,7 @@ namespace Mini_RPG
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Position.content = Content;
+            Position.Content = Content;
             this.Window.Title = "Mini RPG";
             Console.WriteLine(graphics.PreferredBackBufferWidth);
             Console.WriteLine(graphics.PreferredBackBufferHeight);
@@ -45,6 +45,7 @@ namespace Mini_RPG
             graphics.PreferredBackBufferHeight = 600;
             Core.WorldWidth = graphics.PreferredBackBufferHeight;
             //graphics.IsFullScreen = true;
+            
         }
 
         /// <summary>

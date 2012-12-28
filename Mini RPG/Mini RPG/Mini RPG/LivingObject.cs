@@ -10,14 +10,30 @@ namespace Mini_RPG
     {
         public Stats stats { get; set; }
 
+        GraphicalObject HealthBar = new GraphicalObject("HealthBar", Vector2.Zero);
+
         public LivingObject(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed)
             : base(_sheetSize, _textureName, _position, _speed)
         {
             LoadStats(_Name);
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            
+            base.Update(gameTime);
+        }
         public void LoadStats(string Name)
         {
             stats = Library.FindLivingObjectStats(Name);
+        }
+        public bool Damage(int strenght)
+        {
+            if (stats.Damage(strenght)) 
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -33,6 +33,11 @@ namespace Mini_RPG
             return new Rectangle((int)X, (int)Y, tileSize, tileSize);
         }
 
+        public virtual Rectangle CollisionRectangleForShots()
+        {
+            return new Rectangle((int)X - (int)origin.X, (int)Y - (int)origin.Y, tileSize, tileSize);
+        }
+
         public void Draw(SpriteBatch spriteBatch, TileSheet tileSheet)
         {
             spriteBatch.Draw(tileSheet.spriteSheet, Pos, SourceRectangle(), Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);

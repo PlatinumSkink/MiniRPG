@@ -51,6 +51,9 @@ namespace Mini_RPG
 
         bool EnemiesAppeared = false;
 
+        Timer ShotTimer = new Timer(1000 / Core.ShotsPerSecond, false);
+        bool CanShot = true;
+
         public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
         {
             CollisionTile = Red;
@@ -112,9 +115,14 @@ namespace Mini_RPG
                 enemy.AdjustDirection(player.Pos, camera.Position);
                 //enemy.Update(gameTime);                
             }
-            foreach (Shot shot in projectiles)
+            for (int i = 0; i < projectiles.Count; i++)
             {
-                shot.Update(gameTime);
+                projectiles[i].Update(gameTime);
+                TileCollisionCheck(projectiles[i], gameTime);
+            }
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                EnemyCollisionCheck(projectiles[i]);
             }
             TileCollisionCheck(player, gameTime);
             EnemiesAppeared = false;
@@ -129,6 +137,12 @@ namespace Mini_RPG
             
             camera.X = player.X;
             camera.Y = player.Y;
+
+            if (ShotTimer.Update(gameTime))
+            {
+                CanShot = true;
+            }
+
             KeyboardCheck();
             MouseCheck();
 
@@ -146,18 +160,60 @@ namespace Mini_RPG
             
 
             List<Tile> CloseTiles = new List<Tile>();
-
+            if ((mo.X < 1 || mo.Y < 1 || mo.X > worldSize.X * Tile.tileSize || mo.Y > worldSize.Y * Tile.tileSize) && mo is Shot)
+            {
+                projectiles.Remove((Shot)mo);
+                return;
+            }
+            
             CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + 1]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - 1]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X - 1]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X + 1]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X - 1]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X]);
-            CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X + 1]);
+            if (mo.X < Tile.tileSize * worldSize.X - 1)
+            {
+                CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + 1]);
+            }
+            if (mo.X > Tile.tileSize)
+            {
+                CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - 1]);
+            }
+            if (playerStandingOnThisTile < worldSize.X * worldSize.Y - worldSize.X)
+            {
+                if (mo.X > Tile.tileSize)
+                {
+                    CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X - 1]);
+                }
+                CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X]);
+                if (mo.X < Tile.tileSize * worldSize.X - 1)
+                {
+                    CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile + (int)worldSize.X + 1]);
+                }
+            }
+            if (playerStandingOnThisTile > worldSize.X)
+            {
+                if (mo.X > Tile.tileSize)
+                {
+                    CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X - 1]);
+                }
+                CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X]);
+                if (mo.X < Tile.tileSize * worldSize.X - 1)
+                {
+                    CloseTiles.Add(tileManager.collisionTiles[playerStandingOnThisTile - (int)worldSize.X + 1]);
+                }
+            }
 
             //foreach (Tile tile in tileManager.collisionTiles)
+
+            if (mo is Shot)
+            {
+                foreach (Tile tile in CloseTiles)
+                {
+                    if (mo.CollisionRectangle().Intersects(tile.CollisionRectangleForShots()) && tile.sheetPoint == CollisionTile)
+                    {
+                        projectiles.Remove((Shot)mo);
+                        return;
+                    }
+                }
+            }
+
             foreach (Tile tile in CloseTiles)
             {
                 Tile collidedTile = null;
@@ -172,7 +228,11 @@ namespace Mini_RPG
                     goY = false;
                     collided = true;
                 }
-                if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == TriggerTile)
+                if (goX == true || goY == true)
+                {
+                    
+                }
+                if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == TriggerTile && mo is Player)
                 {
                     Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
                 }
@@ -200,7 +260,15 @@ namespace Mini_RPG
             Enemy enemyHit = GetEnemyCollision(mo);
             if (enemyHit != null) 
             {
-
+                if (mo is Shot)
+                {
+                    Shot shot = (Shot)mo;
+                    if (enemyHit.Damage(shot.stats.Strength)) 
+                    {
+                        enemies.Remove(enemyHit);
+                    }
+                    projectiles.Remove((Shot)mo);
+                }
             }
         }
 
@@ -208,7 +276,7 @@ namespace Mini_RPG
         {
             foreach (Enemy enemy in enemies)
             {
-                if (mo.CollisionRectangle().Intersects(enemy.CollisionRectangle()))
+                if (mo.CollisionRectangle().Intersects(enemy.CollisionRectangleForShots()))
                 {
                     return enemy;
                 }
@@ -227,7 +295,7 @@ namespace Mini_RPG
                 if (tile.sheetPoint == EnemyTile && tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)) == triggerNumber) 
                 {
                     EnemiesAppeared = true;
-                    enemies.Add(new Enemy(new Point(1, 1), "Monster1", tile.Pos, 2f));
+                    enemies.Add(new Enemy("Enemy", new Point(1, 1), "Monster1", tile.Pos, 2f));
                     enemies[enemies.IndexOf(enemies.Last<Enemy>())].AddGhosts();
                     tile.sheetPoint = Point.Zero;
                 }
@@ -248,9 +316,11 @@ namespace Mini_RPG
         public void MouseCheck()
         {
             MouseState ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Pressed)
+            if (ms.LeftButton == ButtonState.Pressed && CanShot == true)
             {
-                projectiles.Add(new Shot(new Point(1, 1), "Shot3", player.Pos, 5f, player.rotation));
+                CanShot = false;
+                ShotTimer.active = true;
+                projectiles.Add(new Shot(new Point(1, 1), "Shot3", player.Pos - player.origin / 2, 5f, player.rotation));
                 projectiles.Last<Shot>().AddGhosts();
             }
         }
@@ -263,7 +333,7 @@ namespace Mini_RPG
             Tile Start = tileManager.TileGetByColor(StartTile);
             if (Start != null)
             {
-                player = new Player("Soldier", Start.Pos + Start.origin, 5);
+                player = new Player("Player", "Soldier", Start.Pos + Start.origin, 5);
                 player.AddGhosts();
                 //enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.5f));
                 //enemies[0].AddGhosts();

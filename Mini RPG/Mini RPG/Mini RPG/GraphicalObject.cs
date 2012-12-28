@@ -30,7 +30,7 @@ namespace Mini_RPG
 
         public void Load(string textureName) 
         {
-            texture = content.Load<Texture2D>("Graphics/" + textureName);
+            texture = Content.Load<Texture2D>("Graphics/" + textureName);
         }
 
         public virtual Rectangle CollisionRectangle()

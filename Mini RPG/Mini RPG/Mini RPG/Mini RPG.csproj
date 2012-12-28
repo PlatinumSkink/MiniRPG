@@ -110,8 +110,8 @@
     <Compile Include="AnimatedObject.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Library.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="Library.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="FileHandler.cs" />
@@ -137,6 +137,7 @@
     <Compile Include="TileArsenal.cs" />
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSheet.cs" />
+    <Compile Include="Timer.cs" />
     <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,12 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace Mini_RPG
 {
-    class Enemy : AnimatedObject
+    class Enemy : LivingObject
     {
         enum EnemyState { chase, stationary, damaged }
         EnemyState enemyState = EnemyState.chase;
-        public Enemy(Point _sheetSize, string _textureName, Vector2 _position, float _speed)
-            : base(_sheetSize, _textureName, _position, _speed)
+        public Enemy(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed)
+            : base(_Name, _sheetSize, _textureName, _position, _speed)
         {
 
         }
@@ -49,15 +49,6 @@ namespace Mini_RPG
                 default:
                     break;
             }
-           /* Vector2 distance = new Vector2(playerLocation.X - CameraOffset.X, playerLocation.Y - CameraOffset.Y);
-            //distance.X = X + ms.X - CameraOffset.X - Core.WorldWidth / 2;
-            //distance.Y = Y + ms.Y - CameraOffset.Y - Core.WorldHeight / 2;
-
-            float hypotenusa = (float)Math.Sqrt(distance.X * distance.X + distance.Y * distance.Y);
-
-            //rotation = (float)Math.Atan2(mousePosition.Y - Y - origin.Y, mousePosition.X - X - origin.X);
-            //rotation = (float)Math.Atan2(mousePosition.Y + CameraOffset.Y - Y - origin.Y, mousePosition.X + CameraOffset.X - X - origin.X);
-            rotation = (float)Math.Atan2(distance.Y, distance.X);*/
         }
     }
 }

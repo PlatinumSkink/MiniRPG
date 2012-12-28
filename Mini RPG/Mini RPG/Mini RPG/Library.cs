@@ -27,11 +27,13 @@ namespace Mini_RPG
             EnemyLibrary.Add(enemy3);
             EnemyLibrary.Add(enemy4);
             EnemyLibrary.Add(enemy5);
+            EnemyLibrary.Add(new Stats(5, 5, 0, 2, 5, "Enemy"));
+            PlayerLibrary.Add(new Stats(100, 100, 30, 5, 5, "Player"));
 
             ShotLibrary.Add(normalBullet);
         }
 
-        public static Stats FindLivingObjectStats(string Name)
+        public Stats FindLivingObjectStats(string Name)
         {
             foreach (Stats stat in EnemyLibrary)
             {
@@ -49,7 +51,7 @@ namespace Mini_RPG
             }
             return null;
         }
-        public static Stats FindShotStats(string Name)
+        public Stats FindShotStats(string Name)
         {
             foreach (Stats stat in ShotLibrary)
             {

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Mini_RPG
 {
-    class Player : AnimatedObject
+    class Player : LivingObject
     {
         KeyboardManager ks = new KeyboardManager();
 
@@ -17,7 +17,7 @@ namespace Mini_RPG
         Keys Right = Keys.Right;
         bool moving = false;
 
-        public Player(string _textureName, Vector2 _position, float _speed):base(new Point(1, 1), _textureName, _position, _speed)
+        public Player(string _Name, string _textureName, Vector2 _position, float _speed):base(_Name, new Point(1, 1), _textureName, _position, _speed)
         {
 
         }

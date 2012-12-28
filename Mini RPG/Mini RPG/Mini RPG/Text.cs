@@ -24,7 +24,7 @@ namespace Mini_RPG
 
         public void Load(string fontName)
         {
-            font = content.Load<SpriteFont>("Fonts/" + fontName);
+            font = Content.Load<SpriteFont>("Fonts/" + fontName);
         }
 
         public string Texts
