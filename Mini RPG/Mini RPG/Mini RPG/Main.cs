@@ -30,11 +30,13 @@ namespace Mini_RPG
 
         KeyboardManager km = new KeyboardManager();
 
+        Library Library = new Library();
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Position.Content = Content;
+            //Position.Content = Content;
             this.Window.Title = "Mini RPG";
             Console.WriteLine(graphics.PreferredBackBufferWidth);
             Console.WriteLine(graphics.PreferredBackBufferHeight);
@@ -45,7 +47,7 @@ namespace Mini_RPG
             graphics.PreferredBackBufferHeight = 600;
             Core.WorldWidth = graphics.PreferredBackBufferHeight;
             //graphics.IsFullScreen = true;
-            
+            Library.ArrangeLibrary();
         }
 
         /// <summary>
@@ -70,8 +72,8 @@ namespace Mini_RPG
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-            editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-            menu = new Menu();
+            editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, Content);
+            menu = new Menu(Content);
         }
 
         /// <summary>
@@ -107,9 +109,9 @@ namespace Mini_RPG
                         Core.WorldWidth = graphics.PreferredBackBufferWidth;
                         Core.WorldHeight = graphics.PreferredBackBufferHeight;
                         gameState = GameState.Running;
-                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-                        game.Load("NIKLASWORLD3");
-                        game.SetPlayer();
+                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, Content);
+                        game.Load("NIKLASWORLD3", Content);
+                        game.SetPlayer(Content, Library);
                         //game.Load("COLLISIONTESTWORLD");
                         //game.Load("COLLISION");
                     }
@@ -123,13 +125,13 @@ namespace Mini_RPG
                     }
                     break;
                 case GameState.Running:
-                    game.Update(gameTime);
+                    game.Update(gameTime, Content, Library);
                     break;
                 case GameState.Pause:
                     game.PauseUpdate(gameTime);
                     break;
                 case GameState.Editor:
-                    editor.Update(gameTime);
+                    editor.Update(gameTime, Content);
                     break;
                 default:
                     break;

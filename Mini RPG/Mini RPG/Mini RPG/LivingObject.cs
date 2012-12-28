@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Mini_RPG
 {
@@ -10,12 +11,13 @@ namespace Mini_RPG
     {
         public Stats stats { get; set; }
 
-        GraphicalObject HealthBar = new GraphicalObject("HealthBar", Vector2.Zero);
+        GraphicalObject HealthBar;
 
-        public LivingObject(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed)
-            : base(_sheetSize, _textureName, _position, _speed)
+        public LivingObject(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed, ContentManager Content, Library Library)
+            : base(_sheetSize, _textureName, _position, _speed, Content)
         {
-            LoadStats(_Name);
+            LoadStats(_Name, Library);
+            HealthBar = new GraphicalObject("HealthBar", Vector2.Zero, Content);
         }
 
         public override void Update(GameTime gameTime)
@@ -23,7 +25,7 @@ namespace Mini_RPG
             
             base.Update(gameTime);
         }
-        public void LoadStats(string Name)
+        public void LoadStats(string Name, Library Library)
         {
             stats = Library.FindLivingObjectStats(Name);
         }

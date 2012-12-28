@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Content;
 namespace Mini_RPG
 {
     [Serializable]
-    abstract class Position
+    class Position
     {
-        public static ContentManager Content;
-        public static Library Library = new Library();
+        //public static ContentManager Content;
+        //public static Library Library = new Library();
 
         Vector2 position;
 
@@ -34,9 +34,7 @@ namespace Mini_RPG
         public Position(Vector2 _position)
         {
             position = _position;
-            Library.ArrangeLibrary();
+            //Library.ArrangeLibrary();
         }
-
-
     }
 }

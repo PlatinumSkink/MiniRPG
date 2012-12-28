@@ -22,13 +22,13 @@ namespace Mini_RPG
             get { return texture.Height; }
         }
 
-        public GraphicalObject(string _textureName, Vector2 _position)
+        public GraphicalObject(string _textureName, Vector2 _position, ContentManager Content)
             : base(_position)
         {
-            Load(_textureName);
+            Load(_textureName, Content);
         }
 
-        public void Load(string textureName) 
+        public void Load(string textureName, ContentManager Content) 
         {
             texture = Content.Load<Texture2D>("Graphics/" + textureName);
         }

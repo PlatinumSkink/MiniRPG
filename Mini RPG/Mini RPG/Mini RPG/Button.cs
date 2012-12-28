@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
 namespace Mini_RPG
@@ -11,10 +12,10 @@ namespace Mini_RPG
     class Button:GraphicalObject
     {
         Text name;
-        public Button(string textureName, Vector2 position, string text)
-            : base(textureName, position)
+        public Button(string textureName, Vector2 position, string text, ContentManager Content)
+            : base(textureName, position, Content)
         {
-            name = new Text("SegoeUIMono", text, Color.White, new Vector2(Pos.X/* + Width / 4*/, Pos.Y/* + Height / 4*/));
+            name = new Text("SegoeUIMono", text, Color.White, new Vector2(Pos.X/* + Width / 4*/, Pos.Y/* + Height / 4*/), Content);
         }
         public bool IsPressed(Point point)
         {

@@ -14,15 +14,15 @@ namespace Mini_RPG
         SpriteFont font;
         Color color;
 
-        public Text(string _font, string _text, Color _color, Vector2 _position)
+        public Text(string _font, string _text, Color _color, Vector2 _position, ContentManager Content)
             : base(_position)
         {
             text = _text;
-            Load(_font);
+            Load(_font, Content);
             color = _color;
         }
 
-        public void Load(string fontName)
+        public void Load(string fontName, ContentManager Content)
         {
             font = Content.Load<SpriteFont>("Fonts/" + fontName);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -54,7 +55,7 @@ namespace Mini_RPG
         Timer ShotTimer = new Timer(1000 / Core.ShotsPerSecond, false);
         bool CanShot = true;
 
-        public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
+        public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui, ContentManager Content)
         {
             CollisionTile = Red;
             StartTile = Blue;
@@ -69,8 +70,8 @@ namespace Mini_RPG
             tileSize = _tileSize;
             worldSize = _worldSize;
             camera = new Camera(viewport, new Rectangle(0, 0, (int)worldSize.X * tileSize, (int)worldSize.Y * tileSize));
-            tileManager = new GameTileManager(tileSize);
-            tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y));
+            tileManager = new GameTileManager(tileSize, Content);
+            tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y), Content);
             km = new KeyboardManager();
 
             ui = _ui;
@@ -82,7 +83,7 @@ namespace Mini_RPG
             MouseState ms = Mouse.GetState();
             mousePosition = new Point((int)((ms.X + camera.X - camera.Origin.X) / camera.Zoom), (int)((ms.Y + camera.Y - camera.Origin.Y) / camera.Zoom));
         }
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, ContentManager Content, Library Library)
         {
             MouseState ms = Mouse.GetState();
             MouseToWorld();
@@ -118,17 +119,17 @@ namespace Mini_RPG
             for (int i = 0; i < projectiles.Count; i++)
             {
                 projectiles[i].Update(gameTime);
-                TileCollisionCheck(projectiles[i], gameTime);
+                TileCollisionCheck(projectiles[i], gameTime, Content, Library);
             }
             for (int i = 0; i < projectiles.Count; i++)
             {
                 EnemyCollisionCheck(projectiles[i]);
             }
-            TileCollisionCheck(player, gameTime);
+            TileCollisionCheck(player, gameTime, Content, Library);
             EnemiesAppeared = false;
             foreach (Enemy enemy in enemies)
             {
-                TileCollisionCheck(enemy, gameTime);
+                TileCollisionCheck(enemy, gameTime, Content, Library);
                 if (EnemiesAppeared == true)
                 {
                     return;
@@ -144,11 +145,11 @@ namespace Mini_RPG
             }
 
             KeyboardCheck();
-            MouseCheck();
+            MouseCheck(Content, Library);
 
             EnemyCollisionCheck(player);
         }
-        public void TileCollisionCheck(AnimatedObject mo, GameTime gameTime)
+        public void TileCollisionCheck(AnimatedObject mo, GameTime gameTime, ContentManager Content, Library Library)
         {
             bool goX = true;
             bool collided = false;
@@ -234,7 +235,7 @@ namespace Mini_RPG
                 }
                 if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == TriggerTile && mo is Player)
                 {
-                    Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
+                    Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)), Content, Library);
                 }
             }
             if (goX == true)
@@ -288,14 +289,14 @@ namespace Mini_RPG
         {
 
         }
-        public void Trigger(int triggerNumber)
+        public void Trigger(int triggerNumber, ContentManager Content, Library Library)
         {
             foreach(Tile tile in tileManager.collisionTiles) 
             {
                 if (tile.sheetPoint == EnemyTile && tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)) == triggerNumber) 
                 {
                     EnemiesAppeared = true;
-                    enemies.Add(new Enemy("Enemy", new Point(1, 1), "Monster1", tile.Pos, 2f));
+                    enemies.Add(new Enemy("Enemy", new Point(1, 1), "Monster1", tile.Pos, 2f, Content, Library));
                     enemies[enemies.IndexOf(enemies.Last<Enemy>())].AddGhosts();
                     tile.sheetPoint = Point.Zero;
                 }
@@ -313,27 +314,27 @@ namespace Mini_RPG
                 //6tileManager.LoadWorld();
             }
         }
-        public void MouseCheck()
+        public void MouseCheck(ContentManager Content, Library Library)
         {
             MouseState ms = Mouse.GetState();
             if (ms.LeftButton == ButtonState.Pressed && CanShot == true)
             {
                 CanShot = false;
                 ShotTimer.active = true;
-                projectiles.Add(new Shot(new Point(1, 1), "Shot3", player.Pos - player.origin / 2, 5f, player.rotation));
+                projectiles.Add(new Shot(new Point(1, 1), "Shot3", player.Pos - player.origin / 2, 5f, player.rotation, Content, Library));
                 projectiles.Last<Shot>().AddGhosts();
             }
         }
-        public void Load(string mapName)
+        public void Load(string mapName, ContentManager Content)
         {
-            tileManager.LoadWorld(mapName);
+            tileManager.LoadWorld(mapName, Content);
         }
-        public void SetPlayer()
+        public void SetPlayer(ContentManager Content, Library Library)
         {
             Tile Start = tileManager.TileGetByColor(StartTile);
             if (Start != null)
             {
-                player = new Player("Player", "Soldier", Start.Pos + Start.origin, 5);
+                player = new Player("Player", "Soldier", Start.Pos + Start.origin, 5, Content, Library);
                 player.AddGhosts();
                 //enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.5f));
                 //enemies[0].AddGhosts();

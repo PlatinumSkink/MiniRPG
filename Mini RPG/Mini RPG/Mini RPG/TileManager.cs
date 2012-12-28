@@ -25,16 +25,16 @@ namespace Mini_RPG
 
         bool CANONLYCREATEONEWORLD = false;
 
-        public TileManager(int tileSize)
+        public TileManager(int tileSize, ContentManager Content)
         {
             fileHandler = new FileHandler();
-            tileSheet = new TileSheet("aztek", Vector2.Zero, tileSize);
+            tileSheet = new TileSheet("aztek", Vector2.Zero, tileSize, Content);
             tileLists.Add(tiles1);
             tileLists.Add(tiles2);
             tileLists.Add(tiles3);
             tileLists.Add(collisionTiles);
         }
-        public void NewWorld(int tileSize, Vector2 worldSize)
+        public void NewWorld(int tileSize, Vector2 worldSize, ContentManager Content)
         {
             //CreateEmptyWorld
             if (CANONLYCREATEONEWORLD == false)
@@ -51,8 +51,8 @@ namespace Mini_RPG
                         tiles2.Add(new Tile("", new Point(2, 3), new Vector2(x * tileSize, y * tileSize)));
                         tiles3.Add(new Tile("", new Point(2, 3), new Vector2(x * tileSize, y * tileSize)));
                         collisionTiles.Add(new Tile("", new Point(2, 3), new Vector2(x * tileSize, y * tileSize)));
-                        collisionNumber.Add(new Text("MiniAndy", "0", Color.White, new Vector2(x * tileSize, y * tileSize)));
-                        borders.Add(new GraphicalObject("TileBorder", new Vector2(x * tileSize, y * tileSize)));
+                        collisionNumber.Add(new Text("MiniAndy", "0", Color.White, new Vector2(x * tileSize, y * tileSize),Content));
+                        borders.Add(new GraphicalObject("TileBorder", new Vector2(x * tileSize, y * tileSize), Content));
                     }
                 }
                 foreach (Tile tile in tiles1)
@@ -82,7 +82,7 @@ namespace Mini_RPG
         {
             fileHandler.WriteFile(tileLists, collisionNumber, inputtedName, worldSize);
         }
-        public void LoadWorld(string inputtedName)
+        public void LoadWorld(string inputtedName, ContentManager Content)
         {
             tileLists = fileHandler.GetFile(inputtedName);
             try
@@ -128,7 +128,7 @@ namespace Mini_RPG
                         tiles2[index].Pos = new Vector2(x * tileSize, y * tileSize);
                         tiles3[index].Pos = new Vector2(x * tileSize, y * tileSize);
                         collisionTiles[index].Pos = new Vector2(x * tileSize, y * tileSize);*/
-                        borders.Add(new GraphicalObject("TileBorder", new Vector2(x * tileSize, y * tileSize)));
+                        borders.Add(new GraphicalObject("TileBorder", new Vector2(x * tileSize, y * tileSize), Content));
                         index++;
                     }
                 }

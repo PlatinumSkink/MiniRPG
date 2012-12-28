@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -20,7 +21,7 @@ namespace Mini_RPG
         TileSheet tileSheet;
         int tileSize;
 
-        public TileArsenal(Vector2 _position, TileSheet _tileSheet, int _tileSize)
+        public TileArsenal(Vector2 _position, TileSheet _tileSheet, int _tileSize, ContentManager Content)
             : base(_position)
         {
             tileSheet = _tileSheet;
@@ -34,13 +35,13 @@ namespace Mini_RPG
             }
             for (int i = 0; i < tileSheet.tileSheetSize.Y + 2; i++)
             {
-                borders.Add(new GraphicalObject("Grass", Vector2.Zero));
-                borders.Add(new GraphicalObject("Grass", Vector2.Zero));
+                borders.Add(new GraphicalObject("Grass", Vector2.Zero, Content));
+                borders.Add(new GraphicalObject("Grass", Vector2.Zero, Content));
             }
             for (int j = 0; j < tileSheet.tileSheetSize.X; j++)
             {
-                borders.Add(new GraphicalObject("Grass", Vector2.Zero));
-                borders.Add(new GraphicalObject("Grass", Vector2.Zero));
+                borders.Add(new GraphicalObject("Grass", Vector2.Zero, Content));
+                borders.Add(new GraphicalObject("Grass", Vector2.Zero, Content));
             }
         }
         public void Update()

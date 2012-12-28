@@ -15,7 +15,7 @@ namespace Mini_RPG
         public int Strength { get; set; }
         public string Name { get; set; }
 
-        GraphicalObject HealthBar = new GraphicalObject("HealthBar", Vector2.Zero);
+        //GraphicalObject HealthBar = new GraphicalObject("HealthBar", Vector2.Zero);
 
         public Stats(int _health, int _stamina, int _range, int _speed, int _strength, string _name)
         {

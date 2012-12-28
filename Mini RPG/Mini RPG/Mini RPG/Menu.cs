@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -19,11 +20,11 @@ namespace Mini_RPG
         Text edit;
         Text quit;
 
-        public Menu()
+        public Menu(ContentManager Content)
         {
-            game = new Text("AndyRegular", "Press 1 to play game", Color.White, new Vector2(100, 100));
-            edit = new Text("AndyRegular", "Press 2 to start editor", Color.White, new Vector2(100, 150));
-            quit = new Text("AndyRegular", "Press 3 to quit game", Color.White, new Vector2(100, 200));
+            game = new Text("AndyRegular", "Press 1 to play game", Color.White, new Vector2(100, 100), Content);
+            edit = new Text("AndyRegular", "Press 2 to start editor", Color.White, new Vector2(100, 150), Content);
+            quit = new Text("AndyRegular", "Press 3 to quit game", Color.White, new Vector2(100, 200), Content);
             choice.Add(game);
             choice.Add(edit);
             choice.Add(quit);

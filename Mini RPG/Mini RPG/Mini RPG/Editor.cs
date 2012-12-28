@@ -31,19 +31,19 @@ namespace Mini_RPG
         bool inputting = false;
         bool loading = false;
 
-        public Editor(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
+        public Editor(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui, ContentManager Content)
         {
             tileSize = _tileSize;
             worldSize = _worldSize;
             camera = new Camera(viewport, new Rectangle(0, 0, (int)worldSize.X * tileSize, (int)worldSize.Y * tileSize));
-            tileManager = new TileManager(tileSize);
-            tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y));
+            tileManager = new TileManager(tileSize, Content);
+            tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y), Content);
             km = new KeyboardManager();
             
 
             ui = _ui;
             ui.SetTileSheet(tileManager.GetTileSheet());
-            ui.EditorUI();
+            ui.EditorUI(Content);
         }
         public TileSheet GetTileSheet()
         {
@@ -55,7 +55,7 @@ namespace Mini_RPG
             MouseState ms = Mouse.GetState();
             mousePosition = new Point((int)((ms.X + camera.X - camera.Origin.X) / camera.Zoom), (int)((ms.Y + camera.Y - camera.Origin.Y) / camera.Zoom));
         }
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, ContentManager Content)
         {
             MouseState ms = Mouse.GetState();
             MouseToWorld();
@@ -102,7 +102,7 @@ namespace Mini_RPG
 
             if (km.CheckKeyState(Keys.N) && inputting == false && loading == false)
             {
-                tileManager.NewWorld(tileSize, new Vector2(50, 50));
+                tileManager.NewWorld(tileSize, new Vector2(50, 50), Content);
             }
             if (km.CheckKeyState(Keys.S) && loading == false || ui.saveButton.IsPressed(mousePosition) && loading == false)
             {
@@ -122,7 +122,7 @@ namespace Mini_RPG
             }
             else if (km.CheckKeyState(Keys.Enter) && loading == true)
             {
-                tileManager.LoadWorld(ui.inputedName);
+                tileManager.LoadWorld(ui.inputedName, Content);
                 ui.inputedName = "";
                 loading = false;
             }
