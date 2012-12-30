@@ -30,8 +30,6 @@ namespace Mini_RPG
 
         KeyboardManager km = new KeyboardManager();
 
-        Library Library = new Library();
-
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -40,6 +38,7 @@ namespace Mini_RPG
             this.Window.Title = "Mini RPG";
             Console.WriteLine(graphics.PreferredBackBufferWidth);
             Console.WriteLine(graphics.PreferredBackBufferHeight);
+            Core.Library.ArrangeLibrary();
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 980;
             graphics.PreferredBackBufferWidth = 1024;
@@ -47,7 +46,6 @@ namespace Mini_RPG
             graphics.PreferredBackBufferHeight = 600;
             Core.WorldWidth = graphics.PreferredBackBufferHeight;
             //graphics.IsFullScreen = true;
-            Library.ArrangeLibrary();
         }
 
         /// <summary>
@@ -111,7 +109,7 @@ namespace Mini_RPG
                         gameState = GameState.Running;
                         game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, Content);
                         game.Load("NIKLASWORLD3", Content);
-                        game.SetPlayer(Content, Library);
+                        game.SetPlayer(Content);
                         //game.Load("COLLISIONTESTWORLD");
                         //game.Load("COLLISION");
                     }
@@ -125,7 +123,7 @@ namespace Mini_RPG
                     }
                     break;
                 case GameState.Running:
-                    game.Update(gameTime, Content, Library);
+                    game.Update(gameTime, Content);
                     break;
                 case GameState.Pause:
                     game.PauseUpdate(gameTime);

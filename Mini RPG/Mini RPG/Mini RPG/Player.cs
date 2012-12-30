@@ -18,8 +18,8 @@ namespace Mini_RPG
         Keys Right = Keys.Right;
         bool moving = false;
 
-        public Player(string _Name, string _textureName, Vector2 _position, float _speed, ContentManager Content, Library Library)
-            : base(_Name, new Point(1, 1), _textureName, _position, _speed, Content, Library)
+        public Player(string _Name, string _textureName, Vector2 _position, float _speed, ContentManager Content)
+            : base(_Name, new Point(1, 1), _textureName, _position, _speed, Content)
         {
 
         }

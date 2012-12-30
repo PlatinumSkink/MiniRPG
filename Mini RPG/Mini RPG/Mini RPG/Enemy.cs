@@ -11,8 +11,8 @@ namespace Mini_RPG
     {
         enum EnemyState { chase, stationary, damaged }
         EnemyState enemyState = EnemyState.chase;
-        public Enemy(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed, ContentManager Content, Library Library)
-            : base(_Name, _sheetSize, _textureName, _position, _speed, Content, Library)
+        public Enemy(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed, ContentManager Content)
+            : base(_Name, _sheetSize, _textureName, _position, _speed, Content)
         {
 
         }

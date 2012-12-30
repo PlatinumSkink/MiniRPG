@@ -11,5 +11,7 @@ namespace Mini_RPG
         public static int WorldHeight { get; set; }
 
         public static int ShotsPerSecond = 2;
+
+        public static Library Library = new Library();
     }
 }
