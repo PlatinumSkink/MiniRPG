@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Mini_RPG
@@ -22,15 +21,15 @@ namespace Mini_RPG
             get { return texture.Height; }
         }
 
-        public GraphicalObject(string _textureName, Vector2 _position, ContentManager Content)
+        public GraphicalObject(string _textureName, Vector2 _position)
             : base(_position)
         {
-            Load(_textureName, Content);
+            Load(_textureName);
         }
 
-        public void Load(string textureName, ContentManager Content) 
+        public void Load(string textureName) 
         {
-            texture = Content.Load<Texture2D>("Graphics/" + textureName);
+            texture = Core.Content.Load<Texture2D>("Graphics/" + textureName);
         }
 
         public virtual Rectangle CollisionRectangle()

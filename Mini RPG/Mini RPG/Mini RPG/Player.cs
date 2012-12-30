@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
 namespace Mini_RPG
@@ -18,8 +17,8 @@ namespace Mini_RPG
         Keys Right = Keys.Right;
         bool moving = false;
 
-        public Player(string _Name, string _textureName, Vector2 _position, float _speed, ContentManager Content)
-            : base(_Name, new Point(1, 1), _textureName, _position, _speed, Content)
+        public Player(string _Name, string _textureName, Vector2 _position, float _speed)
+            : base(_Name, new Point(1, 1), _textureName, _position, _speed)
         {
 
         }

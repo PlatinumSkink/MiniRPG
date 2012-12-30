@@ -39,6 +39,7 @@ namespace Mini_RPG
             Console.WriteLine(graphics.PreferredBackBufferWidth);
             Console.WriteLine(graphics.PreferredBackBufferHeight);
             Core.Library.ArrangeLibrary();
+            Core.Content = Content;
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 980;
             graphics.PreferredBackBufferWidth = 1024;
@@ -70,8 +71,8 @@ namespace Mini_RPG
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-            editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, Content);
-            menu = new Menu(Content);
+            editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
+            menu = new Menu();
         }
 
         /// <summary>
@@ -107,9 +108,9 @@ namespace Mini_RPG
                         Core.WorldWidth = graphics.PreferredBackBufferWidth;
                         Core.WorldHeight = graphics.PreferredBackBufferHeight;
                         gameState = GameState.Running;
-                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, Content);
-                        game.Load("NIKLASWORLD3", Content);
-                        game.SetPlayer(Content);
+                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
+                        game.Load("NIKLASWORLD3");
+                        game.SetPlayer();
                         //game.Load("COLLISIONTESTWORLD");
                         //game.Load("COLLISION");
                     }
@@ -123,13 +124,13 @@ namespace Mini_RPG
                     }
                     break;
                 case GameState.Running:
-                    game.Update(gameTime, Content);
+                    game.Update(gameTime);
                     break;
                 case GameState.Pause:
                     game.PauseUpdate(gameTime);
                     break;
                 case GameState.Editor:
-                    editor.Update(gameTime, Content);
+                    editor.Update(gameTime);
                     break;
                 default:
                     break;

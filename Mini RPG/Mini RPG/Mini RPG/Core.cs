@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
 
 namespace Mini_RPG
 {
@@ -13,5 +14,6 @@ namespace Mini_RPG
         public static int ShotsPerSecond = 2;
 
         public static Library Library = new Library();
+        public static ContentManager Content;
     }
 }

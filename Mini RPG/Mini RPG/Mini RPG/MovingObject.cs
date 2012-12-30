@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Mini_RPG
@@ -69,8 +68,8 @@ namespace Mini_RPG
             set { lastPos = value; }
         }
 
-        public MovingObject(string _textureName, Vector2 _position, float speed, ContentManager Content)
-            : base(_textureName, _position, Content)
+        public MovingObject(string _textureName, Vector2 _position, float speed)
+            : base(_textureName, _position)
         {
             this.speed = speed;
             nameToRememberYouBy = _textureName;

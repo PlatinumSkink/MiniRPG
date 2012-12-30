@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -45,15 +44,15 @@ namespace Mini_RPG
         {
 
         }
-        public void EditorUI(ContentManager Content)
+        public void EditorUI()
         {
             tileOfChoice = new Tile("Floor", new Point(2, 0), new Vector2(0, 0));
-            tileArsenal = new TileArsenal(new Vector2(0, 0), tileSheet, tileSize, Content);
+            tileArsenal = new TileArsenal(new Vector2(0, 0), tileSheet, tileSize);
 
-            texts.Add(new Text("SegoeUIMono", "Layer ", Color.White, new Vector2(10, 370), Content));
-            InputText = new Text("SegoeUIMono", "|", Color.White, new Vector2(200, 10), Content);
-            saveButton = new Button("Save", new Vector2(200, 40), "SAVE", Content);
-            loadButton = new Button("Save", new Vector2(200 + saveButton.Width, 40), "LOAD", Content);
+            texts.Add(new Text("SegoeUIMono", "Layer ", Color.White, new Vector2(10, 370)));
+            InputText = new Text("SegoeUIMono", "|", Color.White, new Vector2(200, 10));
+            saveButton = new Button("Save", new Vector2(200, 40), "SAVE");
+            loadButton = new Button("Save", new Vector2(200 + saveButton.Width, 40), "LOAD");
         }
         public void SetTileSheet(TileSheet _tileSheet)
         {

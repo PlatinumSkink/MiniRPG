@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Mini_RPG
@@ -36,8 +35,8 @@ namespace Mini_RPG
             set { base.Y = value; }
         }
 
-        public AnimatedObject(Point _sheetSize, string _textureName, Vector2 _position, float speed, ContentManager Content)
-            : base(_textureName, _position, speed, Content)
+        public AnimatedObject(Point _sheetSize, string _textureName, Vector2 _position, float speed)
+            : base(_textureName, _position, speed)
         {
             sheetSize = _sheetSize;
             if (rotation == null)

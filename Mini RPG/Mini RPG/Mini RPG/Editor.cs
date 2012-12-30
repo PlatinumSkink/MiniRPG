@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -31,19 +30,19 @@ namespace Mini_RPG
         bool inputting = false;
         bool loading = false;
 
-        public Editor(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui, ContentManager Content)
+        public Editor(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
         {
             tileSize = _tileSize;
             worldSize = _worldSize;
             camera = new Camera(viewport, new Rectangle(0, 0, (int)worldSize.X * tileSize, (int)worldSize.Y * tileSize));
-            tileManager = new TileManager(tileSize, Content);
-            tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y), Content);
+            tileManager = new TileManager(tileSize);
+            tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y));
             km = new KeyboardManager();
             
 
             ui = _ui;
             ui.SetTileSheet(tileManager.GetTileSheet());
-            ui.EditorUI(Content);
+            ui.EditorUI();
         }
         public TileSheet GetTileSheet()
         {
@@ -55,7 +54,7 @@ namespace Mini_RPG
             MouseState ms = Mouse.GetState();
             mousePosition = new Point((int)((ms.X + camera.X - camera.Origin.X) / camera.Zoom), (int)((ms.Y + camera.Y - camera.Origin.Y) / camera.Zoom));
         }
-        public void Update(GameTime gameTime, ContentManager Content)
+        public void Update(GameTime gameTime)
         {
             MouseState ms = Mouse.GetState();
             MouseToWorld();
@@ -102,7 +101,7 @@ namespace Mini_RPG
 
             if (km.CheckKeyState(Keys.N) && inputting == false && loading == false)
             {
-                tileManager.NewWorld(tileSize, new Vector2(50, 50), Content);
+                tileManager.NewWorld(tileSize, new Vector2(50, 50));
             }
             if (km.CheckKeyState(Keys.S) && loading == false || ui.saveButton.IsPressed(mousePosition) && loading == false)
             {
@@ -122,7 +121,7 @@ namespace Mini_RPG
             }
             else if (km.CheckKeyState(Keys.Enter) && loading == true)
             {
-                tileManager.LoadWorld(ui.inputedName, Content);
+                tileManager.LoadWorld(ui.inputedName);
                 ui.inputedName = "";
                 loading = false;
             }
