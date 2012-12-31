@@ -95,7 +95,7 @@ namespace Mini_RPG
             {
                 foreach (var tile in tileArsenal.tileArsenal)
                 {
-                    if (tile.CollisionRectangle().Contains(mousePosition))
+                    if (tile.GraphicalRectangle().Contains(mousePosition))
                     {
                         tileOfChoice = new Tile(tile.Name, tile.sheetPoint, tileOfChoice.Pos);
                         ChangedTile = true;

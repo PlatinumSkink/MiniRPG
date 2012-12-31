@@ -27,6 +27,9 @@ namespace Mini_RPG
         List<Enemy> enemies = new List<Enemy>();
         List<Shot> projectiles = new List<Shot>();
 
+        public string[] LevelNames;
+        public int currentLevel = 0;
+
         Point Red = new Point(9, 5);
         Point Blue = new Point(10, 5);
         Point Pink = new Point(11, 5);
@@ -53,6 +56,8 @@ namespace Mini_RPG
 
         Timer ShotTimer = new Timer(1000 / Core.ShotsPerSecond, false);
         bool CanShot = true;
+
+        bool Paused = false;
 
         public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
         {
@@ -84,69 +89,73 @@ namespace Mini_RPG
         }
         public void Update(GameTime gameTime)
         {
-            MouseState ms = Mouse.GetState();
-            MouseToWorld();
-            player.LastPos = player.Pos;
-            foreach (Enemy enemy in enemies)
+            if (Paused == false)
             {
-                enemy.LastPos = enemy.Pos;
-            }
-            player.Update(gameTime);
-            player.AdjustDirection(new Vector2(camera.X, camera.Y));
-            if (player.X - player.origin.X < 0)
-            {
-                player.X = player.origin.X;
-            }
-            if (player.Y - player.origin.Y < 0)
-            {
-                player.Y = player.origin.Y;
-            }
-            if (player.X - player.origin.X > worldSize.X * tileSize - player.Width)
-            {
-                player.X = worldSize.X * tileSize - player.Width + player.origin.X;
-            }
-            if (player.Y - player.origin.Y > worldSize.Y * tileSize - player.Height)
-            {
-                player.Y = worldSize.Y * tileSize - player.Height + player.origin.Y;
-            }
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Hunt(player.Pos);
-                enemy.AdjustDirection(player.Pos, camera.Position);
-                //enemy.Update(gameTime);                
-            }
-            for (int i = 0; i < projectiles.Count; i++)
-            {
-                projectiles[i].Update(gameTime);
-                TileCollisionCheck(projectiles[i], gameTime);
-            }
-            for (int i = 0; i < projectiles.Count; i++)
-            {
-                EnemyCollisionCheck(projectiles[i]);
-            }
-            TileCollisionCheck(player, gameTime);
-            EnemiesAppeared = false;
-            foreach (Enemy enemy in enemies)
-            {
-                TileCollisionCheck(enemy, gameTime);
-                if (EnemiesAppeared == true)
+                MouseState ms = Mouse.GetState();
+                MouseToWorld();
+                player.LastPos = player.Pos;
+                foreach (Enemy enemy in enemies)
                 {
-                    return;
+                    enemy.LastPos = enemy.Pos;
                 }
-            }
-            
-            camera.X = player.X;
-            camera.Y = player.Y;
+                player.Update(gameTime);
+                player.AdjustDirection(new Vector2(camera.X, camera.Y));
+                if (player.X - player.origin.X < 0)
+                {
+                    player.X = player.origin.X;
+                }
+                if (player.Y - player.origin.Y < 0)
+                {
+                    player.Y = player.origin.Y;
+                }
+                if (player.X - player.origin.X > worldSize.X * tileSize - player.Width)
+                {
+                    player.X = worldSize.X * tileSize - player.Width + player.origin.X;
+                }
+                if (player.Y - player.origin.Y > worldSize.Y * tileSize - player.Height)
+                {
+                    player.Y = worldSize.Y * tileSize - player.Height + player.origin.Y;
+                }
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.Hunt(player.Pos);
+                    enemy.AdjustDirection(player.Pos, camera.Position);
+                    //enemy.Update(gameTime);                
+                }
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    projectiles[i].Update(gameTime);
+                    TileCollisionCheck(projectiles[i], gameTime);
+                }
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    EnemyCollisionCheck(projectiles[i]);
+                }
+                TileCollisionCheck(player, gameTime);
+                EnemiesAppeared = false;
+                foreach (Enemy enemy in enemies)
+                {
+                    TileCollisionCheck(enemy, gameTime);
+                    if (EnemiesAppeared == true)
+                    {
+                        return;
+                    }
+                }
 
-            if (ShotTimer.Update(gameTime))
-            {
-                CanShot = true;
+                camera.X = player.X;
+                camera.Y = player.Y;
+
+                if (ShotTimer.Update(gameTime))
+                {
+                    CanShot = true;
+                }
+                MouseCheck();
+
+                EnemyCollisionCheck(player);
             }
 
             KeyboardCheck();
-            MouseCheck();
-
-            EnemyCollisionCheck(player);
+            
         }
         public void TileCollisionCheck(AnimatedObject mo, GameTime gameTime)
         {
@@ -206,7 +215,7 @@ namespace Mini_RPG
             {
                 foreach (Tile tile in CloseTiles)
                 {
-                    if (mo.CollisionRectangle().Intersects(tile.CollisionRectangleForShots()) && tile.sheetPoint == CollisionTile)
+                    if (mo.CollisionRectangle().Intersects(tile.GraphicalRectangle()) && tile.sheetPoint == CollisionTile)
                     {
                         projectiles.Remove((Shot)mo);
                         return;
@@ -235,6 +244,12 @@ namespace Mini_RPG
                 if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == TriggerTile && mo is Player)
                 {
                     Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
+                }
+                if (mo.CollisionRectangle().Intersects(tile.CollisionRectangle()) && tile.sheetPoint == GoalTile && mo is Player)
+                {
+                    currentLevel++;
+                    Load();
+                    return;
                 }
             }
             if (goX == true)
@@ -308,9 +323,20 @@ namespace Mini_RPG
         public void KeyboardCheck()
         {
             KeyboardManager km = new KeyboardManager();
-            if (km.CheckKeyState(Keys.L)) 
+            if (km.CheckKeyState(Keys.L, true)) 
             {
                 //6tileManager.LoadWorld();
+            }
+            if (km.CheckKeyState(Keys.P, true))
+            {
+                if (Paused)
+                {
+                    Paused = false;
+                }
+                else
+                {
+                    Paused = true;
+                }
             }
         }
         public void MouseCheck()
@@ -324,9 +350,25 @@ namespace Mini_RPG
                 projectiles.Last<Shot>().AddGhosts();
             }
         }
-        public void Load(string mapName)
+        public void SetLevelNames(string[] _LevelNames)
         {
-            tileManager.LoadWorld(mapName);
+            LevelNames = _LevelNames;
+            Load();
+        }
+        public void Load()
+        {
+            enemies = new List<Enemy>();
+            projectiles = new List<Shot>();
+            try
+            {
+                tileManager.LoadWorld(LevelNames[currentLevel]);
+            }
+            catch
+            {
+                EndGame();
+                return;
+            }
+            SetPlayer();
         }
         public void SetPlayer()
         {
@@ -338,6 +380,10 @@ namespace Mini_RPG
                 //enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.5f));
                 //enemies[0].AddGhosts();
             }
+        }
+        public void EndGame()
+        {
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {

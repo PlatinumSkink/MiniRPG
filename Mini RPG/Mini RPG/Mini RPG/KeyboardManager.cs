@@ -10,16 +10,43 @@ namespace Mini_RPG
     class KeyboardManager
     {
         KeyboardState ks;
+        List<Keys> PressedKeys = new List<Keys>();
         public KeyboardManager()
         {
 
         }
-        public bool CheckKeyState(Keys key)
+        public bool CheckKeyState(Keys key, bool ClickOnceButton)
         {
             ks=Keyboard.GetState();
-            if (ks.IsKeyDown(key))
+            for (int i = 0; i < PressedKeys.Count; i++)
             {
-                return true;
+                if (ks.IsKeyUp(PressedKeys[i])) 
+                {
+                    PressedKeys.Remove(PressedKeys[i]);
+                    i--;
+                }
+            }
+            if (ClickOnceButton == false)
+            {
+                if (ks.IsKeyDown(key))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                foreach (Keys pressedKey in PressedKeys)
+                {
+                    if (pressedKey == key)
+                    {
+                        return false;
+                    }
+                }
+                if (ks.IsKeyDown(key))
+                {
+                    PressedKeys.Add(key);
+                    return true;
+                }
             }
             return false;
         }

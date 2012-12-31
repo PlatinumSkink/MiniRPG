@@ -26,11 +26,11 @@ namespace Mini_RPG
         {
             /*DirectionX = ms.X - X;
             DirectionY = ms.Y - Y;*/
-            if (ks.CheckKeyState(Up))
+            if (ks.CheckKeyState(Up, false))
             {
                 DirectionY = -1;
             }
-            else if (ks.CheckKeyState(Down))
+            else if (ks.CheckKeyState(Down, false))
             {
                 DirectionY = 1;
             }
@@ -38,11 +38,11 @@ namespace Mini_RPG
             {
                 DirectionY = 0;
             }
-            if (ks.CheckKeyState(Left))
+            if (ks.CheckKeyState(Left, false))
             {
                 DirectionX = -1;
             }
-            else if (ks.CheckKeyState(Right))
+            else if (ks.CheckKeyState(Right, false))
             {
                 DirectionX = 1;
             }

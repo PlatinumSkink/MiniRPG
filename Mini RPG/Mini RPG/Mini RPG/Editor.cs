@@ -59,7 +59,7 @@ namespace Mini_RPG
             MouseState ms = Mouse.GetState();
             MouseToWorld();
 
-            if (km.CheckKeyState(Keys.Escape))
+            if (km.CheckKeyState(Keys.Escape, false))
             {
                 
             }
@@ -71,14 +71,14 @@ namespace Mini_RPG
             {
                 for (int i = 0; i < worldSize.X * worldSize.Y; i++)
                 {
-                    if (tileManager.GetTile(currentLayer, i).CollisionRectangle().Contains(mousePosition) && tileManager.GetTile(currentLayer, i).sheetPoint != ui.tileOfChoice.sheetPoint)
+                    if (tileManager.GetTile(currentLayer, i).GraphicalRectangle().Contains(mousePosition) && tileManager.GetTile(currentLayer, i).sheetPoint != ui.tileOfChoice.sheetPoint)
                     {
                         tileManager.SetTile(ui.tileOfChoice, i, currentLayer);
                     }
-                    else if (tileManager.GetTile(currentLayer, i).CollisionRectangle().Contains(mousePosition) && currentLayer == 3 && pressedAlready == false) 
+                    else if (tileManager.GetTile(currentLayer, i).GraphicalRectangle().Contains(mousePosition) && currentLayer == 3 && pressedAlready == false) 
                     {
                         
-                        if (km.CheckKeyState(Keys.Back))
+                        if (km.CheckKeyState(Keys.Back, false))
                         {
                             tileManager.SetNumber(tileManager.GetNumber(i) - 1, i);
                         }
@@ -99,75 +99,75 @@ namespace Mini_RPG
                 ui.Input();
             }
 
-            if (km.CheckKeyState(Keys.N) && inputting == false && loading == false)
+            if (km.CheckKeyState(Keys.N, false) && inputting == false && loading == false)
             {
                 tileManager.NewWorld(tileSize, new Vector2(50, 50));
             }
-            if (km.CheckKeyState(Keys.S) && loading == false || ui.saveButton.IsPressed(mousePosition) && loading == false)
+            if (km.CheckKeyState(Keys.S, false) && loading == false || ui.saveButton.IsPressed(mousePosition) && loading == false)
             {
                 inputting = true;
             }
-            if (km.CheckKeyState(Keys.Delete))
+            if (km.CheckKeyState(Keys.Delete, false))
             {
                 inputting = false;
                 loading = false;
                 ui.inputedName = "";
             }
-            if (km.CheckKeyState(Keys.Enter) && inputting == true)
+            if (km.CheckKeyState(Keys.Enter, false) && inputting == true)
             {
                 tileManager.SaveWorld(ui.inputedName);
                 ui.inputedName = "";
                 inputting = false;
             }
-            else if (km.CheckKeyState(Keys.Enter) && loading == true)
+            else if (km.CheckKeyState(Keys.Enter, false) && loading == true)
             {
                 tileManager.LoadWorld(ui.inputedName);
                 ui.inputedName = "";
                 loading = false;
             }
-            if (km.CheckKeyState(Keys.L) && inputting == false || ui.loadButton.IsPressed(mousePosition) && inputting == false)
+            if (km.CheckKeyState(Keys.L, false) && inputting == false || ui.loadButton.IsPressed(mousePosition) && inputting == false)
             {
                 loading = true;
             }
             if (loading == false && inputting == false)
             {
-                if (km.CheckKeyState(Keys.D4))
+                if (km.CheckKeyState(Keys.D4, false))
                 {
                     currentLayer = 3;
                 }
-                if (km.CheckKeyState(Keys.D1))
+                if (km.CheckKeyState(Keys.D1, false))
                 {
                     currentLayer = 0;
                 }
-                else if (km.CheckKeyState(Keys.D2))
+                else if (km.CheckKeyState(Keys.D2,false))
                 {
                     currentLayer = 1;
                 }
-                else if (km.CheckKeyState(Keys.D3))
+                else if (km.CheckKeyState(Keys.D3,false))
                 {
                     currentLayer = 2;
                 }
-                if (km.CheckKeyState(Keys.Up))
+                if (km.CheckKeyState(Keys.Up,false))
                 {
                     camera.Y -= 5;
                 }
-                else if (km.CheckKeyState(Keys.Down))
+                else if (km.CheckKeyState(Keys.Down,false))
                 {
                     camera.Y += 5;
                 }
-                if (km.CheckKeyState(Keys.Left))
+                if (km.CheckKeyState(Keys.Left,false))
                 {
                     camera.X -= 5;
                 }
-                else if (km.CheckKeyState(Keys.Right))
+                else if (km.CheckKeyState(Keys.Right, false))
                 {
                     camera.X += 5;
                 }
-                if (km.CheckKeyState(Keys.OemPlus))
+                if (km.CheckKeyState(Keys.OemPlus, false))
                 {
                     camera.Zoom += 0.005f;
                 }
-                else if (km.CheckKeyState(Keys.OemMinus))
+                else if (km.CheckKeyState(Keys.OemMinus, false))
                 {
                     camera.Zoom -= 0.005f;
                 }

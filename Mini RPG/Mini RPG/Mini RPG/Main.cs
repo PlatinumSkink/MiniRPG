@@ -109,8 +109,12 @@ namespace Mini_RPG
                         Core.WorldHeight = graphics.PreferredBackBufferHeight;
                         gameState = GameState.Running;
                         game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-                        game.Load("NIKLASWORLD3");
-                        game.SetPlayer();
+                        string[] levelNames = new string[3];
+                        levelNames[0] = "NiklasWorld1";
+                        levelNames[1] = "NiklasWorld2";
+                        levelNames[2] = "NiklasWorld3";
+                        game.SetLevelNames(levelNames);
+                        //game.Load("NIKLASWORLD3");
                         //game.Load("COLLISIONTESTWORLD");
                         //game.Load("COLLISION");
                     }
@@ -136,7 +140,7 @@ namespace Mini_RPG
                     break;
             }
 
-            if (km.CheckKeyState(Keys.Escape))
+            if (km.CheckKeyState(Keys.Escape, false))
             {
                 this.Exit();
             }

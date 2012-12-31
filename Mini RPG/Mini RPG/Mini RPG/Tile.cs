@@ -32,7 +32,7 @@ namespace Mini_RPG
             return new Rectangle((int)X, (int)Y, tileSize, tileSize);
         }
 
-        public virtual Rectangle CollisionRectangleForShots()
+        public virtual Rectangle GraphicalRectangle()
         {
             return new Rectangle((int)X - (int)origin.X, (int)Y - (int)origin.Y, tileSize, tileSize);
         }

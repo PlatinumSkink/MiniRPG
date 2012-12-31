@@ -110,6 +110,7 @@
     <Compile Include="AnimatedObject.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="CampainFile.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Editor.cs" />
