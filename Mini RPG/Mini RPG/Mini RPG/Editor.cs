@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Mini_RPG
 {
-    class Editor
+    class Editor : State
     {
         TileManager tileManager;
         KeyboardManager km;
@@ -30,7 +30,8 @@ namespace Mini_RPG
         bool inputting = false;
         bool loading = false;
 
-        public Editor(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
+        public Editor(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui, bool _visible)
+            : base(_visible)
         {
             tileSize = _tileSize;
             worldSize = _worldSize;
@@ -38,7 +39,7 @@ namespace Mini_RPG
             tileManager = new TileManager(tileSize);
             tileManager.NewWorld(tileSize, new Vector2(worldSize.X, worldSize.Y));
             km = new KeyboardManager();
-            
+
 
             ui = _ui;
             ui.SetTileSheet(tileManager.GetTileSheet());

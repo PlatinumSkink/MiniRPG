@@ -71,8 +71,8 @@ namespace Mini_RPG
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-            editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
-            menu = new Menu();
+            editor = new Editor(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, false);
+            menu = new Menu(true);
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace Mini_RPG
             switch (gameState)
             {
                 case GameState.Menu:
-                    string next = menu.Update(gameTime);
-                    if (next == "Game")
+                    string nextMenu = menu.Update(gameTime);
+                    if (nextMenu == "Game")
                     {
                         graphics.PreferredBackBufferWidth = 800;
                         graphics.PreferredBackBufferHeight = 480;
@@ -108,7 +108,7 @@ namespace Mini_RPG
                         Core.WorldWidth = graphics.PreferredBackBufferWidth;
                         Core.WorldHeight = graphics.PreferredBackBufferHeight;
                         gameState = GameState.Running;
-                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui);
+                        game = new Game(32, new Vector2(50, 50), graphics.GraphicsDevice.Viewport, ui, true);
                         string[] levelNames = new string[3];
                         levelNames[0] = "NiklasWorld1";
                         levelNames[1] = "NiklasWorld2";
@@ -118,17 +118,26 @@ namespace Mini_RPG
                         //game.Load("COLLISIONTESTWORLD");
                         //game.Load("COLLISION");
                     }
-                    else if (next == "Editor")
+                    else if (nextMenu == "Editor")
                     {
                         gameState = GameState.Editor;
                     }
-                    else if (next == "Quit")
+                    else if (nextMenu == "Quit")
                     {
                         this.Exit();
                     }
                     break;
                 case GameState.Running:
                     game.Update(gameTime);
+                    string nextGame = game.CheckState();
+                    if (nextGame == "Won") 
+                    {
+                        gameState = GameState.Menu;
+                    }
+                    else if (nextGame == "End")
+                    {
+                        gameState = GameState.Menu;
+                    }
                     break;
                 case GameState.Pause:
                     game.PauseUpdate(gameTime);

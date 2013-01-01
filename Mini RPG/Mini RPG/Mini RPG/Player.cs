@@ -51,7 +51,7 @@ namespace Mini_RPG
                 DirectionX = 0;
             }
             //AdjustDirection();
-            //base.Update(gameTime);
+            base.Update(gameTime);
         }
         
         public void AdjustDirection(Vector2 CameraOffset)

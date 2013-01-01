@@ -11,7 +11,7 @@ namespace Mini_RPG
         public int Health { get; set; }
         public int Stamina { get; set; }
         public int Range { get; set; }
-        public int Speed { get; set; }
+        public float Speed { get; set; }
         public int Strength { get; set; }
         public string Name { get; set; }
 

@@ -11,38 +11,57 @@ namespace Mini_RPG
     {
         Stats stats;
 
+        public int StandardHealth { get; set; }
         public int Health { get; set; }
+        public int StandardStamina { get; set; }
         public int Stamina { get; set; }
+        public int StandardRange { get; set; }
         public int Range { get; set; }
-        public int Speed { get; set; }
+        public float StandardSpeed { get; set; }
+        public float Speed
+        {
+            get
+            {
+                return speed;
+            }
+            set
+            {
+                speed = value;
+            }
+        }
+        public int StandardStrength { get; set; }
         public int Strength { get; set; }
         public string Name { get; set; }
 
         //int Health = 5;
 
-        GraphicalObject HealthBar;
+        Bar HealthBar;
 
         public LivingObject(string _Name, Point _sheetSize, string _textureName, Vector2 _position, float _speed)
             : base(_sheetSize, _textureName, _position, _speed)
         {
             LoadStats(_Name);
-            stats.Health = 5;
-            HealthBar = new GraphicalObject("HealthBar", Vector2.Zero);
+            HealthBar = new Bar(StandardHealth, "HealthBar", Vector2.Zero);
         }
 
         public override void Update(GameTime gameTime)
         {
-            
-            base.Update(gameTime);
+            HealthBar.Update(Pos, Health);
+            //base.Update(gameTime);
         }
         public void LoadStats(string Name)
         {
             stats = Core.Library.FindLivingObjectStats(Name);
-            Health = stats.Health;
-            Stamina = stats.Stamina;
-            Range = stats.Range;
-            Speed = stats.Speed;
-            Strength = stats.Strength;
+            StandardHealth = stats.Health;
+            Health = StandardHealth;
+            StandardStamina = stats.Stamina;
+            Stamina = StandardStamina;
+            StandardRange = stats.Range;
+            Range = StandardRange;
+            StandardSpeed = stats.Speed;
+            Speed = StandardSpeed;
+            StandardStrength = stats.Strength;
+            Strength = StandardStrength;
             Name = stats.Name;
         }
         public bool Damage(int strength)
@@ -68,9 +87,10 @@ namespace Mini_RPG
             return false;
         }*/
 
-        public override void Draw(SpriteBatch sprite)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(sprite);
+            HealthBar.Draw(spriteBatch);
+            base.Draw(spriteBatch);
         }
     }
 }

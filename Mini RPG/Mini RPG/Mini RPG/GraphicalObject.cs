@@ -37,9 +37,9 @@ namespace Mini_RPG
             return new Rectangle((int)X, (int)Y, Width, Height);
         }
 
-        public virtual void Draw(SpriteBatch sprite)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(texture, CollisionRectangle(), Color.White);
+            spriteBatch.Draw(texture, CollisionRectangle(), Color.White);
         }
     }
 }

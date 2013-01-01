@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Mini_RPG
 {
-    class Game
+    class Game : State
     {
         GameTileManager tileManager;
         KeyboardManager km;
@@ -59,7 +59,10 @@ namespace Mini_RPG
 
         bool Paused = false;
 
-        public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui)
+        string State = "Nothing";
+
+        public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui, bool _visible)
+            : base(_visible)
         {
             CollisionTile = Red;
             StartTile = Blue;
@@ -98,7 +101,7 @@ namespace Mini_RPG
                 {
                     enemy.LastPos = enemy.Pos;
                 }
-                player.Update(gameTime);
+                
                 player.AdjustDirection(new Vector2(camera.X, camera.Y));
                 if (player.X - player.origin.X < 0)
                 {
@@ -116,11 +119,12 @@ namespace Mini_RPG
                 {
                     player.Y = worldSize.Y * tileSize - player.Height + player.origin.Y;
                 }
+
                 foreach (Enemy enemy in enemies)
                 {
+                    enemy.Update(gameTime);  
                     enemy.Hunt(player.Pos);
                     enemy.AdjustDirection(player.Pos, camera.Position);
-                    //enemy.Update(gameTime);                
                 }
                 for (int i = 0; i < projectiles.Count; i++)
                 {
@@ -152,6 +156,7 @@ namespace Mini_RPG
                 MouseCheck();
 
                 EnemyCollisionCheck(player);
+                player.Update(gameTime);
             }
 
             KeyboardCheck();
@@ -284,6 +289,14 @@ namespace Mini_RPG
                     }
                     projectiles.Remove((Shot)mo);
                 }
+                if (mo is Player) 
+                {
+                    Player player = (Player)mo;
+                    if (player.Damage(enemyHit.Strength))
+                    {
+                        EndGame(false);
+                    }
+                }
             }
         }
 
@@ -365,7 +378,7 @@ namespace Mini_RPG
             }
             catch
             {
-                EndGame();
+                EndGame(true);
                 return;
             }
             SetPlayer();
@@ -381,13 +394,24 @@ namespace Mini_RPG
                 //enemies[0].AddGhosts();
             }
         }
-        public void EndGame()
+        public void EndGame(bool won)
         {
-
+            if (won == true)
+            {
+                State = "Won";
+            }
+            else
+            {
+                State = "End";
+            }
+        }
+        public string CheckState()
+        {
+            return State;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            tileManager.Draw(spriteBatch, 2);
+            tileManager.Draw(spriteBatch, 1);
             //player.DrawGhosts(spriteBatch);
             player.Draw(spriteBatch);
             foreach (Enemy enemy in enemies)

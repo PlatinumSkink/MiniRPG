@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimatedObject.cs" />
+    <Compile Include="Bar.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CampainFile.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="RPGCollision.cs" />
     <Compile Include="Shot.cs" />
+    <Compile Include="State.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Tile.cs" />

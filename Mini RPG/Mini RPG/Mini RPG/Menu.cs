@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Mini_RPG
 {
-    class Menu
+    class Menu : State
     {
         Point mousePosition;
 
@@ -19,7 +19,8 @@ namespace Mini_RPG
         Text edit;
         Text quit;
 
-        public Menu()
+        public Menu(bool _visible)
+            : base(_visible)
         {
             game = new Text("AndyRegular", "Press 1 to play game", Color.White, new Vector2(100, 100));
             edit = new Text("AndyRegular", "Press 2 to start editor", Color.White, new Vector2(100, 150));

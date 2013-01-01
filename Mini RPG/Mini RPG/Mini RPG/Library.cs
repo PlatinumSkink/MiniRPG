@@ -18,7 +18,7 @@ namespace Mini_RPG
         public static Stats enemy4 = new Stats(5, 5, 0, 2, 5, "Monster4");
         public static Stats enemy5 = new Stats(5, 5, 0, 2, 5, "Monster5");
 
-        public static Stats normalBullet = new Stats(0, 10, 10, 5, 2, "Shot3");
+        public static Stats normalBullet = new Stats(0, 10, 10, 2, 2, "Shot3");
 
         public void ArrangeLibrary()
         {
@@ -27,8 +27,8 @@ namespace Mini_RPG
             EnemyLibrary.Add(enemy3);
             EnemyLibrary.Add(enemy4);
             EnemyLibrary.Add(enemy5);
-            EnemyLibrary.Add(new Stats(5, 5, 0, 2, 5, "Enemy"));
-            PlayerLibrary.Add(new Stats(100, 100, 30, 5, 5, "Player"));
+            EnemyLibrary.Add(new Stats(5, 5, 0, 1, 5, "Enemy"));
+            PlayerLibrary.Add(new Stats(1000, 100, 30, 3, 5, "Player"));
 
             ShotLibrary.Add(normalBullet);
         }
