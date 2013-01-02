@@ -113,6 +113,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="CampainFile.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="InteractableTerrain.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Enemy.cs" />

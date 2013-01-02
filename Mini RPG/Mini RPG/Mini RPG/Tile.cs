@@ -22,7 +22,7 @@ namespace Mini_RPG
             origin = new Vector2(tileSize / 2, tileSize / 2);
         }
 
-        public Rectangle SourceRectangle()
+        public virtual Rectangle SourceRectangle()
         {
             return new Rectangle(sheetPoint.X * tileSize, sheetPoint.Y * tileSize, tileSize, tileSize);
         }
@@ -37,7 +37,7 @@ namespace Mini_RPG
             return new Rectangle((int)X - (int)origin.X, (int)Y - (int)origin.Y, tileSize, tileSize);
         }
 
-        public void Draw(SpriteBatch spriteBatch, TileSheet tileSheet)
+        public virtual void Draw(SpriteBatch spriteBatch, TileSheet tileSheet)
         {
             spriteBatch.Draw(tileSheet.spriteSheet, Pos, SourceRectangle(), Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
         }

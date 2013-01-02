@@ -26,6 +26,8 @@ namespace Mini_RPG
         Player player;
         List<Enemy> enemies = new List<Enemy>();
         List<Shot> projectiles = new List<Shot>();
+        List<InteractableTerrain> Levers = new List<InteractableTerrain>();
+        List<InteractableTerrain> Doors = new List<InteractableTerrain>();
 
         public string[] LevelNames;
         public int currentLevel = 0;
@@ -392,6 +394,34 @@ namespace Mini_RPG
                 player.AddGhosts();
                 //enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.5f));
                 //enemies[0].AddGhosts();
+            }
+            foreach (Tile tile in tileManager.collisionTiles) 
+            {
+                if (tile.sheetPoint == InteractTile) 
+                {
+                    int spinThisMuch = 0;
+                    int tileIndex = tileManager.collisionTiles.IndexOf(tile);
+                    if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 5) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 6)) 
+                    {
+                        spinThisMuch = 1;
+                    }
+                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 9) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 10))
+                    {
+                        spinThisMuch = 2;
+                    }
+                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 11) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 12))
+                    {
+                        spinThisMuch = 3;
+                    }
+                    bool[] falseBools = new bool[2];
+                    falseBools[0] = false;
+                    falseBools[1] = false;
+                    Levers.Add(new InteractableTerrain(true, falseBools, "LeftLever", "RightLever", tile.Pos));
+                }
+                if (tile.sheetPoint == EffectTile) 
+                {
+
+                }
             }
         }
         public void EndGame(bool won)
