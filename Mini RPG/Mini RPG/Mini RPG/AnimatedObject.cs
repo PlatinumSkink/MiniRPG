@@ -9,9 +9,9 @@ namespace Mini_RPG
 {
     class AnimatedObject : MovingObject
     {
-        Point sheetSize;
-        Point spriteSize;
-        Point currentSprite = Point.Zero;
+        protected Point sheetSize;
+        protected Point spriteSize;
+        public Point currentSprite = Point.Zero;
 
         public float rotation { get; set; }
         public Vector2 origin { get; set; }
@@ -76,9 +76,9 @@ namespace Mini_RPG
             return new Rectangle(currentSprite.X * Width, currentSprite.Y * Height, Width, Height);
         }
 
-        public override void Draw(SpriteBatch sprite)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(texture, /*Collision*/GraphicsRectangle(), SourceRectangle(), Color.White, rotation, origin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, /*Collision*/GraphicsRectangle(), SourceRectangle(), Color.White, rotation, origin, SpriteEffects.None, 0f);
         }
     }
 }

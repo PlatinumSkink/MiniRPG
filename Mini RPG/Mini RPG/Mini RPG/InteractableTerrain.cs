@@ -13,7 +13,7 @@ namespace Mini_RPG
         public bool Button;
         public bool[] Collider = new bool[2];
 
-        public InteractableTerrain(bool _Button, Point _sheetSize, bool[] _colliders, string _textureName, string _secondTextureName, Vector2 _position)
+        public InteractableTerrain(bool _Button, Point _sheetSize, bool[] _colliders, string _textureName, Vector2 _position)
             : base(_sheetSize, _textureName, _position, 0)
         {
             Button = _Button;
@@ -38,17 +38,14 @@ namespace Mini_RPG
             }
             return new Rectangle(-50, -50, 0, 0);
         }*/
-
-        public void Switch()
+        public override Rectangle GraphicsRectangle()
         {
-            if (SecondPoint == true) 
-            {
-                SecondPoint = false;
-            }
-            else if (SecondPoint == false)
-            {
-                SecondPoint = true;
-            }
+            return new Rectangle((int)(X), (int)(Y), Width, Height);
+        }
+
+        public void Switch(Point next)
+        {
+            currentSprite = next;
         }
 
         /*public override void Draw(SpriteBatch spriteBatch)
@@ -62,5 +59,9 @@ namespace Mini_RPG
                 base.Draw(spriteBatch);
             }
         }*/
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, /*Collision*/GraphicsRectangle(), SourceRectangle(), Color.White, rotation, origin, SpriteEffects.None, 0f);
+        }
     }
 }

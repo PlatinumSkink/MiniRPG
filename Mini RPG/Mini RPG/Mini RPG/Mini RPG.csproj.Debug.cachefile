@@ -8,9 +8,6 @@ Content\Graphics\Gubb.xnb
 Content\Graphics\Save.xnb
 Content\Graphics\aztek.xnb
 Content\Graphics\Enem.xnb
-Content\Graphics\door_closed.xnb
-Content\Graphics\door_destroyed.xnb
-Content\Graphics\door_open.xnb
 Content\Graphics\FireBall.xnb
 Content\Graphics\Monster.xnb
 Content\Graphics\Pineapple.xnb
@@ -20,3 +17,8 @@ Content\Graphics\soldier5.xnb
 Content\Graphics\Monster1.xnb
 Content\Graphics\Soldier.xnb
 Content\Graphics\HealthBar.xnb
+Content\Graphics\Copy of door_closed.xnb
+Content\Graphics\LeverRight.xnb
+Content\Graphics\LeverLeft.xnb
+Content\Graphics\Lever.xnb
+Content\Graphics\Door.xnb

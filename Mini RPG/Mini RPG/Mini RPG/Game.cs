@@ -228,6 +228,28 @@ namespace Mini_RPG
                         return;
                     }
                 }
+                foreach (InteractableTerrain terrain in Doors) 
+                {
+                    if (terrain.Collider[terrain.currentSprite.X] == true && mo.CollisionRectangle().Intersects(terrain.CollisionRectangleForShots())) 
+                    {
+                        projectiles.Remove((Shot)mo);
+                        return;
+                    }
+                }
+            }
+
+            foreach (InteractableTerrain terrain in Doors) 
+            {
+                if (mo.GhostX.Collider().Intersects(terrain.CollisionRectangle()) && terrain.Collider[terrain.currentSprite.X] == true)
+                {
+                    goX = false;
+                    collided = true;
+                }
+                if (mo.GhostY.Collider().Intersects(terrain.CollisionRectangle()) && terrain.Collider[terrain.currentSprite.X] == true)
+                {
+                    goY = false;
+                    collided = true;
+                }
             }
 
             foreach (Tile tile in CloseTiles)
@@ -329,9 +351,23 @@ namespace Mini_RPG
                     enemies[enemies.IndexOf(enemies.Last<Enemy>())].AddGhosts();
                     tile.sheetPoint = Point.Zero;
                 }
-                if (tile.sheetPoint == EffectTile)
+                if (tile.sheetPoint == EffectTile && tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)) == triggerNumber)
                 {
-
+                    foreach (InteractableTerrain terrain in Doors) 
+                    {
+                        if (tile.CollisionRectangle().Intersects(terrain.CollisionRectangle()))
+                        {
+                            Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
+                            if (terrain.currentSprite.X == 1)
+                            {
+                                terrain.Switch(new Point(2, 0));
+                            }
+                            else if (terrain.currentSprite.X == 2)
+                            {
+                                terrain.Switch(new Point(1, 0));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -341,6 +377,29 @@ namespace Mini_RPG
             if (km.CheckKeyState(Keys.L, true)) 
             {
                 //6tileManager.LoadWorld();
+            }
+            if (km.CheckKeyState(Keys.E, true) || km.CheckKeyState(Keys.RightShift, true)) 
+            {
+                int playerTile = (int)(((int)((player.Y + player.origin.Y) / 32) * 50) + ((player.X + player.origin.X) / 32));
+                Tile tile = tileManager.collisionTiles[playerTile];
+                if (tile.sheetPoint == InteractTile) 
+                {
+                    foreach (InteractableTerrain terrain in Levers) 
+                    {
+                        if (tile.CollisionRectangle().Intersects(terrain.CollisionRectangle()))
+                        {
+                            Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
+                            if (terrain.currentSprite.X == 0)
+                            {
+                                terrain.Switch(new Point(1, 0));
+                            }
+                            else
+                            {
+                                terrain.Switch(new Point(0, 0));
+                            }
+                        }
+                    }
+                }
             }
             if (km.CheckKeyState(Keys.P, true))
             {
@@ -374,6 +433,8 @@ namespace Mini_RPG
         {
             enemies = new List<Enemy>();
             projectiles = new List<Shot>();
+            Doors = new List<InteractableTerrain>();
+            Levers = new List<InteractableTerrain>();
             try
             {
                 tileManager.LoadWorld(LevelNames[currentLevel]);
@@ -401,26 +462,47 @@ namespace Mini_RPG
                 {
                     int spinThisMuch = 0;
                     int tileIndex = tileManager.collisionTiles.IndexOf(tile);
-                    if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 5) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 6)) 
+                    if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(5, 0) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(6, 0)) 
                     {
                         spinThisMuch = 1;
                     }
-                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 9) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 10))
-                    {
-                        spinThisMuch = 2;
-                    }
-                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 11) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(0, 12))
+                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(9, 0) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(10, 0))
                     {
                         spinThisMuch = 3;
+                    }
+                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(11, 0) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 0))
+                    {
+                        spinThisMuch = 2;
                     }
                     bool[] falseBools = new bool[2];
                     falseBools[0] = false;
                     falseBools[1] = false;
-                    Levers.Add(new InteractableTerrain(true, falseBools, "LeftLever", "RightLever", tile.Pos));
+                    Levers.Add(new InteractableTerrain(true, new Point(2, 1), falseBools, "Lever", tile.Pos));
+                    Levers.Last<InteractableTerrain>().rotation += MathHelper.ToRadians(90 * spinThisMuch);
                 }
                 if (tile.sheetPoint == EffectTile) 
                 {
-
+                    int spinThisMuch = 0;
+                    int tileIndex = tileManager.collisionTiles.IndexOf(tile);
+                    if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 1) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 2) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 3))
+                    {
+                        spinThisMuch = 1;
+                    }
+                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(9, 3) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(10, 3) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(11, 3))
+                    {
+                        spinThisMuch = 2;
+                    }
+                    else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(13, 1) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(13, 2) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(13, 3))
+                    {
+                        spinThisMuch = 3;
+                    }
+                    bool[] DoorBools = new bool[3];
+                    DoorBools[0] = false;
+                    DoorBools[1] = true;
+                    DoorBools[2] = false;
+                    Doors.Add(new InteractableTerrain(false, new Point(3, 1), DoorBools, "Door", tile.Pos));
+                    Doors.Last<InteractableTerrain>().Switch(new Point(1, 0));
+                    Doors.Last<InteractableTerrain>().rotation += MathHelper.ToRadians(90 * spinThisMuch);
                 }
             }
         }
@@ -444,10 +526,18 @@ namespace Mini_RPG
             tileManager.Draw(spriteBatch, 1);
             //player.DrawGhosts(spriteBatch);
             player.Draw(spriteBatch);
+            foreach (InteractableTerrain door in Doors)
+            {
+                door.Draw(spriteBatch);
+            }
             foreach (Enemy enemy in enemies)
             {
                 //enemy.DrawGhosts(spriteBatch);
                 enemy.Draw(spriteBatch);
+            }
+            foreach (InteractableTerrain lever in Levers)
+            {
+                lever.Draw(spriteBatch);
             }
             foreach (Shot shot in projectiles)
             {
