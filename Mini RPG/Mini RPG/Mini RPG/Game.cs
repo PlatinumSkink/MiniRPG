@@ -63,6 +63,8 @@ namespace Mini_RPG
 
         string State = "Nothing";
 
+        bool PressedE = false;
+
         public Game(int _tileSize, Vector2 _worldSize, Viewport viewport, UI _ui, bool _visible)
             : base(_visible)
         {
@@ -357,7 +359,7 @@ namespace Mini_RPG
                     {
                         if (tile.CollisionRectangle().Intersects(terrain.CollisionRectangle()))
                         {
-                            Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
+                            //Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
                             if (terrain.currentSprite.X == 1)
                             {
                                 terrain.Switch(new Point(2, 0));
@@ -378,27 +380,38 @@ namespace Mini_RPG
             {
                 //6tileManager.LoadWorld();
             }
-            if (km.CheckKeyState(Keys.E, true) || km.CheckKeyState(Keys.RightShift, true)) 
+            if (PressedE == false)
             {
-                int playerTile = (int)(((int)((player.Y + player.origin.Y) / 32) * 50) + ((player.X + player.origin.X) / 32));
-                Tile tile = tileManager.collisionTiles[playerTile];
-                if (tile.sheetPoint == InteractTile) 
+                if (km.CheckKeyState(Keys.E, true) || km.CheckKeyState(Keys.RightShift, true))
                 {
-                    foreach (InteractableTerrain terrain in Levers) 
+                    PressedE = true;
+                    int playerTile = (int)(((int)((player.Y + player.origin.Y) / 32) * 50) + ((player.X + player.origin.X) / 32));
+                    Tile tile = tileManager.collisionTiles[playerTile];
+                    if (tile.sheetPoint == InteractTile)
                     {
-                        if (tile.CollisionRectangle().Intersects(terrain.CollisionRectangle()))
+                        foreach (InteractableTerrain terrain in Levers)
                         {
-                            Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
-                            if (terrain.currentSprite.X == 0)
+                            if (tile.CollisionRectangle().Intersects(terrain.CollisionRectangle()))
                             {
-                                terrain.Switch(new Point(1, 0));
-                            }
-                            else
-                            {
-                                terrain.Switch(new Point(0, 0));
+                                Trigger(tileManager.GetNumber(tileManager.collisionTiles.IndexOf(tile)));
+                                if (terrain.currentSprite.X == 0)
+                                {
+                                    terrain.Switch(new Point(1, 0));
+                                }
+                                else
+                                {
+                                    terrain.Switch(new Point(0, 0));
+                                }
                             }
                         }
                     }
+                }
+            }
+            else
+            {
+                if (km.CheckKeyState(Keys.E, false) == false && km.CheckKeyState(Keys.RightShift, false) == false)
+                {
+                    PressedE = false;
                 }
             }
             if (km.CheckKeyState(Keys.P, true))
@@ -486,7 +499,7 @@ namespace Mini_RPG
                     int tileIndex = tileManager.collisionTiles.IndexOf(tile);
                     if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 1) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 2) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(12, 3))
                     {
-                        spinThisMuch = 1;
+                        spinThisMuch = 3;
                     }
                     else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(9, 3) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(10, 3) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(11, 3))
                     {
@@ -494,7 +507,7 @@ namespace Mini_RPG
                     }
                     else if (tileManager.GetTile(2, tileIndex).sheetPoint == new Point(13, 1) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(13, 2) || tileManager.GetTile(2, tileIndex).sheetPoint == new Point(13, 3))
                     {
-                        spinThisMuch = 3;
+                        spinThisMuch = 1;
                     }
                     bool[] DoorBools = new bool[3];
                     DoorBools[0] = false;
