@@ -32,6 +32,8 @@ namespace Mini_RPG
 
         public bool ChangedTile = false;
 
+        public GameMenu gameMenu;
+
         public UI(int _tileSize)
         {
             tileSize = _tileSize;
@@ -42,7 +44,7 @@ namespace Mini_RPG
         }
         public void GameUI()
         {
-
+            gameMenu = new GameMenu("GameMenu", Vector2.Zero);
         }
         public void EditorUI()
         {
@@ -243,7 +245,7 @@ namespace Mini_RPG
         }
         public void GameDraw(SpriteBatch spriteBatch)
         {
-
+            gameMenu.Draw(spriteBatch);
         }
     }
 }

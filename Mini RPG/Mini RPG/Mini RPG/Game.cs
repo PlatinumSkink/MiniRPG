@@ -105,7 +105,7 @@ namespace Mini_RPG
                 {
                     enemy.LastPos = enemy.Pos;
                 }
-                
+
                 player.AdjustDirection(new Vector2(camera.X, camera.Y));
                 if (player.X - player.origin.X < 0)
                 {
@@ -126,7 +126,7 @@ namespace Mini_RPG
 
                 foreach (Enemy enemy in enemies)
                 {
-                    enemy.Update(gameTime);  
+                    enemy.Update(gameTime);
                     enemy.Hunt(player.Pos);
                     enemy.AdjustDirection(player.Pos, camera.Position);
                 }
@@ -162,7 +162,10 @@ namespace Mini_RPG
                 EnemyCollisionCheck(player);
                 player.Update(gameTime);
             }
-
+            else
+            {
+                ui.gameMenu.Update(gameTime);
+            }
             KeyboardCheck();
             
         }
@@ -416,6 +419,7 @@ namespace Mini_RPG
             }
             if (km.CheckKeyState(Keys.P, true))
             {
+                ui.gameMenu.SwitchVisibility();
                 if (Paused)
                 {
                     Paused = false;

@@ -32,9 +32,20 @@ namespace Mini_RPG
             set { text = value; }
         }
 
-        public void Draw(SpriteBatch sprite)
+        public Color Colors
         {
-            sprite.DrawString(font, text, Pos, color);
+            get { return color; }
+            set { color = value; }
+        }
+
+        public Rectangle ButtonRectangle()
+        {
+            return new Rectangle(80, 30, (int)X, (int)Y);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(font, text, Pos, color);
         }
     }
 }
