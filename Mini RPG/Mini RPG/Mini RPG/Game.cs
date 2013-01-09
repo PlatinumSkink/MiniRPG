@@ -157,7 +157,7 @@ namespace Mini_RPG
                 {
                     CanShot = true;
                 }
-                MouseCheck();
+                
 
                 EnemyCollisionCheck(player);
                 player.Update(gameTime);
@@ -166,6 +166,7 @@ namespace Mini_RPG
             {
                 ui.gameMenu.Update(gameTime);
             }
+            MouseCheck();
             KeyboardCheck();
             
         }
@@ -433,12 +434,44 @@ namespace Mini_RPG
         public void MouseCheck()
         {
             MouseState ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Pressed && CanShot == true)
+            if (Paused == false)
             {
-                CanShot = false;
-                ShotTimer.active = true;
-                projectiles.Add(new Shot(new Point(1, 1), "Shot3", player.Pos - player.origin / 2, 5f, player.rotation));
-                projectiles.Last<Shot>().AddGhosts();
+                if (ms.LeftButton == ButtonState.Pressed && CanShot == true)
+                {
+                    CanShot = false;
+                    ShotTimer.active = true;
+                    projectiles.Add(new Shot(new Point(1, 1), player.currentShot, player.Pos - player.origin / 2, 5f, player.rotation));
+                    projectiles.Last<Shot>().AddGhosts();
+                }
+            }
+            else
+            {
+                foreach (Text text in ui.gameMenu.MenuChoices) 
+                {
+                    if (text.ButtonRectangle().Contains(new Point(ms.X, ms.Y)) && ms.LeftButton == ButtonState.Pressed) 
+                    {
+                        if (text.Texts == "Overview") 
+                        {
+                            
+                        }
+                        else if (text.Texts == "Status")
+                        {
+                            ui.gameMenu.Status(player);
+                        }
+                        else if (text.Texts == "Inventory")
+                        {
+                            ui.gameMenu.Inventory();
+                        }
+                        else if (text.Texts == "Options")
+                        {
+                            ui.gameMenu.Options();
+                        }
+                        else if (text.Texts == "Exit Game")
+                        {
+                            EndGame(false);
+                        }
+                    }
+                }
             }
         }
         public void SetLevelNames(string[] _LevelNames)
@@ -468,7 +501,7 @@ namespace Mini_RPG
             Tile Start = tileManager.TileGetByColor(StartTile);
             if (Start != null)
             {
-                player = new Player("Player", "Soldier", Start.Pos + Start.origin, 5);
+                player = new Player("Player", "Soldier", Start.Pos + Start.origin, 5, "Shot");
                 player.AddGhosts();
                 //enemies.Add(new Enemy(new Point(1, 1), "Enem", Start.Pos + Start.origin, 0.5f));
                 //enemies[0].AddGhosts();

@@ -60,6 +60,26 @@ namespace Mini_RPG
                 visible = true;
             }
         }
+
+        public void Status(Player player)
+        {
+            MenuChoices.Add(new Text("SegoeUIMono", "Name: " + player.Name, Color.White, Vector2.Zero));
+            MenuChoices.Add(new Text("SegoeUIMono", "Strength: ", Color.White, Vector2.Zero));
+            MenuChoices.Add(new Text("SegoeUIMono", "Inventory", Color.White, Vector2.Zero));
+            MenuChoices.Add(new Text("SegoeUIMono", "Options", Color.White, Vector2.Zero));
+            MenuChoices.Add(new Text("SegoeUIMono", "Exit Game", Color.White, Vector2.Zero));
+        }
+
+        public void Inventory()
+        {
+
+        }
+
+        public void Options()
+        {
+
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (visible == true)

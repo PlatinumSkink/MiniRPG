@@ -18,7 +18,7 @@ namespace Mini_RPG
         public static Stats enemy4 = new Stats(5, 5, 0, 2, 5, "Monster4");
         public static Stats enemy5 = new Stats(5, 5, 0, 2, 5, "Monster5");
 
-        public static Stats normalBullet = new Stats(0, 10, 10, 2, 2, "Shot3");
+        public static Stats normalBullet = new Stats(0, 10, 10, 2, 2, "Shot");
 
         public void ArrangeLibrary()
         {

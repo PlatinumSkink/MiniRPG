@@ -17,10 +17,12 @@ namespace Mini_RPG
         Keys Right = Keys.Right;
         bool moving = false;
 
-        public Player(string _Name, string _textureName, Vector2 _position, float _speed)
+        public string currentShot = "";
+
+        public Player(string _Name, string _textureName, Vector2 _position, float _speed, string _currentShot)
             : base(_Name, new Point(1, 1), _textureName, _position, _speed)
         {
-
+            currentShot = _currentShot;
         }
         public override void Update(GameTime gameTime)
         {
