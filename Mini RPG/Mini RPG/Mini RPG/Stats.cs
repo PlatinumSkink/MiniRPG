@@ -13,6 +13,7 @@ namespace Mini_RPG
         public int Range { get; set; }
         public float Speed { get; set; }
         public int Strength { get; set; }
+        public int Defense { get; set; }
         public string Name { get; set; }
 
         //GraphicalObject HealthBar = new GraphicalObject("HealthBar", Vector2.Zero);
@@ -24,12 +25,13 @@ namespace Mini_RPG
             Range = _range;
             Speed = _speed;
             Strength = _strength;
+            Defense = 0;
             Name = _name;
         }
 
         public bool Damage(int strength)
         {
-            Health -= strength;
+            Health -= (strength - Defense);
             if (Health <= 0) 
             {
                 return true;

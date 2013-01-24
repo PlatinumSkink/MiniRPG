@@ -112,9 +112,11 @@
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CampainFile.cs" />
+    <Compile Include="ItemGraphic.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="GameMenu.cs" />
     <Compile Include="InteractableTerrain.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Editor.cs" />
     <Compile Include="Enemy.cs" />
