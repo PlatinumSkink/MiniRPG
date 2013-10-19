@@ -150,6 +150,39 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="Graphics\aztek.png" />
+    <Content Include="Graphics\Copy of door_closed.png" />
+    <Content Include="Graphics\Copy of Monster.png" />
+    <Content Include="Graphics\Copy of soldier5.png" />
+    <Content Include="Graphics\Door.PNG" />
+    <Content Include="Graphics\Enem.bmp" />
+    <Content Include="Graphics\FireBall.PNG" />
+    <Content Include="Graphics\GameMenu.bmp" />
+    <Content Include="Graphics\Grass.png" />
+    <Content Include="Graphics\Gubb.bmp" />
+    <Content Include="Graphics\HealthBar.bmp" />
+    <Content Include="Graphics\Lever.PNG" />
+    <Content Include="Graphics\LeverLeft.PNG" />
+    <Content Include="Graphics\LeverRight.PNG" />
+    <Content Include="Graphics\Monster.png" />
+    <Content Include="Graphics\Monster1.PNG" />
+    <Content Include="Graphics\Monster2.PNG" />
+    <Content Include="Graphics\Monstie.PNG" />
+    <Content Include="Graphics\Pineapple.png" />
+    <Content Include="Graphics\PowerUpArmor.png" />
+    <Content Include="Graphics\PowerUpBullet.png" />
+    <Content Include="Graphics\PowerUpDrink.png" />
+    <Content Include="Graphics\PowerUpHealth.png" />
+    <Content Include="Graphics\PowerUpKey.png" />
+    <Content Include="Graphics\RocketProjectile.png" />
+    <Content Include="Graphics\Save.bmp" />
+    <Content Include="Graphics\Shot.bmp" />
+    <Content Include="Graphics\Shot2.bmp" />
+    <Content Include="Graphics\Shot3.bmp" />
+    <Content Include="Graphics\Soldier.PNG" />
+    <Content Include="Graphics\soldier5.png" />
+    <Content Include="Graphics\TileBorder.png" />
+    <Content Include="Graphics\Water.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mini RPGContent\Mini RPGContent.contentproj">
